@@ -1,0 +1,17 @@
+{
+  "name": "beichen-codex",
+  "version": "3.0.0-codex",
+  "private": true,
+  "description": "北辰选科探索独立 vNext 发布包",
+  "scripts": {
+    "test": "node scripts/run-tests.mjs",
+    "check:html": "node scripts/check-inline.mjs",
+    "check": "node --check scf-relay.js && node --check runtime-config.js && npm run check:html",
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "verify": "npm run check && npm test && npm run secret-scan && npm run build:pages"
+  },
+  "engines": {
+    "node": ">=18.20.0"
+  }
+}

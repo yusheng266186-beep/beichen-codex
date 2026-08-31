@@ -1,0 +1,28 @@
+#!/bin/bash
+# 北辰中转 · SCF Web Function 启动脚本
+# 原则:选"能真正跑起来"的 node,而不是"存在即可"的二进制
+set -e
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+export PORT="${PORT:-9000}"
+
+NODE_BIN=""
+for candidate in /var/lang/node20/bin/node /var/lang/node18/bin/node; do
+  if [ -x "${candidate}" ] && "${candidate}" -e 'process.exit(0)' 2>/dev/null; then
+    NODE_BIN="${candidate}"
+    break
+  fi
+done
+if [ -z "${NODE_BIN}" ]; then
+  echo "beichen relay: no runnable node binary found" >&2
+  exit 1
+fi
+
+ENTRY_FILE="${SCRIPT_DIR}/scf-relay.js"
+if [ ! -f "${ENTRY_FILE}" ] && [ -f "${SCRIPT_DIR}/app.js" ]; then
+  ENTRY_FILE="${SCRIPT_DIR}/app.js"
+fi
+if [ ! -f "${ENTRY_FILE}" ]; then
+  echo "beichen relay: entry file not found" >&2
+  exit 1
+fi
+exec "${NODE_BIN}" "${ENTRY_FILE}"

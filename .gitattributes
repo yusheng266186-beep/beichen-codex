@@ -1,0 +1,5 @@
+# scf_bootstrap 必须以 LF 进入 zip(Windows autocrlf 检出会把 shebang 变 CRLF,SCF 启动即死)
+scf_bootstrap text eol=lf
+# 字体为二进制,禁止任何换行改写
+*.woff2 binary
+*.woff binary

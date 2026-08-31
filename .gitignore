@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.zip
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+# 唯一交棒文档含密钥,绝不入仓库
+操作执行清单.md
