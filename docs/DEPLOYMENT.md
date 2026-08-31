@@ -21,7 +21,7 @@
 
 ## 配置边界
 
-密钥、TOTP seed 和会话签名密钥只写入新函数的加密环境变量，不进入 GitHub、Pages artifact、README、日志或截图。新函数默认是单实例 `MemoryStore`，公开扩容前必须接入带 TTL 与原子事务的外部 `StateStore`。
+密钥、TOTP seed 和会话签名密钥只写入新函数的加密环境变量，不进入 GitHub、Pages artifact、README、日志或截图。当前为兼容既有操作员动态码而暂时沿用同一 TOTP seed；正式扩大范围前应单独轮换并重新分发。新函数默认是单实例 `MemoryStore`，公开扩容前必须接入带 TTL 与原子事务的外部 `StateStore`。
 
 ## 回滚
 

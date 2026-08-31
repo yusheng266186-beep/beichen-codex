@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="description" content="北辰：面向高中生的选科探索与自我整理工具。先听见自己的线索，再核对本省官方要求。">
 <!-- 发布脚本会把 __RELAY_ORIGIN__ 替换为本项目专属中转地址；不会连接旧版函数。 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://__RELAY_ORIGIN__;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://__RELAY_ORIGIN__;">
 <title>北辰 · 高一选科探索</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3 L23 17 L37 20 L23 23 L20 37 L17 23 L3 20 L17 17 Z' fill='%2320242c'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#f7f6f2">
@@ -185,7 +185,7 @@ button:focus-visible{outline:2px solid var(--ink-2);outline-offset:3px}
   padding:16px 18px;max-width:min(560px,86%);
   animation:msg-in .28s cubic-bezier(.23,1,.32,1) both;
 }
-.picker h5{font-family:var(--kai);font-size:14px;font-weight:700;letter-spacing:0.14em;margin-bottom:3px}
+.picker h3{font-family:var(--kai);font-size:14px;font-weight:700;letter-spacing:0.14em;margin-bottom:3px}
 .picker .pk-sub{font-size:11.5px;color:var(--mut);margin-bottom:12px;line-height:1.6}
 .pk-group{margin-bottom:11px}
 .pk-group-lb{font-size:10.5px;letter-spacing:0.14em;margin-bottom:7px;display:flex;align-items:center;gap:7px;color:var(--ink-2)}
@@ -425,8 +425,8 @@ button.mj{font-family:inherit;background:transparent;cursor:default}
 }
 .mp-x:hover{background:var(--paper-2);color:var(--ink)}
 .mp-tag{font-size:9.5px;letter-spacing:.28em;color:var(--mut);margin-bottom:7px}
-.mj-pop h6{font-family:var(--kai);font-size:16px;font-weight:700;letter-spacing:.05em;color:var(--ink);margin-bottom:7px;display:flex;align-items:baseline;gap:8px;padding-right:24px}
-.mj-pop h6::before{content:'✦';font-size:10px;color:var(--li);flex-shrink:0;transform:translateY(-1px)}
+.mj-pop h3{font-family:var(--kai);font-size:16px;font-weight:700;letter-spacing:.05em;color:var(--ink);margin-bottom:7px;display:flex;align-items:baseline;gap:8px;padding-right:24px}
+.mj-pop h3::before{content:'✦';font-size:10px;color:var(--li);flex-shrink:0;transform:translateY(-1px)}
 .mp-why{font-size:11.5px;line-height:1.95;color:var(--ink-2)}
 .mp-career{margin-top:11px;padding-top:10px;border-top:1px dashed var(--line)}
 .mp-lb{font-size:9.5px;letter-spacing:.3em;color:var(--mut);display:block;margin-bottom:4px}
@@ -501,7 +501,7 @@ button.mj{font-family:inherit;background:transparent;cursor:default}
 
 .models-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .model-card{border:1px solid var(--line);border-radius:var(--radius-m);padding:15px}
-.model-card h5{font-family:var(--kai);font-size:14px;font-weight:700;margin-bottom:8px;letter-spacing:0.08em}
+.model-card h3{font-family:var(--kai);font-size:14px;font-weight:700;margin-bottom:8px;letter-spacing:0.08em}
 .model-card p{font-size:11px;color:var(--ink-2);line-height:1.8}
 .holland{display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .hl-row{display:flex;align-items:center;gap:9px;font-size:10.5px;color:var(--ink-2)}
@@ -798,7 +798,7 @@ html.js [data-reveal]:not(.revealed){opacity:0}
   .pk-chip{padding:8px 16px;font-size:13px}
   .pk-ok{padding:11px 24px}
   .tbtn{padding:9px 13px;font-size:11.5px}
-  .rc-close{width:40px;height:40px}
+  .rc-close{width:44px;height:44px}
   .send{width:48px;height:48px}
   .choices-hint{font-size:11px}
   /* 低端机减负：去掉遮罩模糊 */
@@ -839,6 +839,9 @@ html.js [data-reveal]:not(.revealed){opacity:0}
 .report-card,.data-card,.modal-card{scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
 .report-card::-webkit-scrollbar,.data-card::-webkit-scrollbar,.modal-card::-webkit-scrollbar{display:block;width:8px;height:8px}
 .report-card::-webkit-scrollbar-thumb,.data-card::-webkit-scrollbar-thumb,.modal-card::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
+.inp-row textarea{scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.inp-row textarea::-webkit-scrollbar{display:block;width:6px;height:6px}
+.inp-row textarea::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--li)!important;outline-offset:3px!important}
 button:disabled{cursor:not-allowed;filter:none}
 .mode-tag{display:inline-flex;align-items:center;margin-left:8px;padding:2px 7px;border:1px solid var(--line-2);border-radius:99px;color:var(--mut);font:500 10px/1.3 var(--sans);letter-spacing:.08em}
@@ -847,7 +850,11 @@ button:disabled{cursor:not-allowed;filter:none}
 .top-acts .tbtn{min-height:38px}
 .choices-wrap.dis{opacity:.5}
 .choices-wrap.dis .choc{pointer-events:none}
+.choc,.pk-chip,.pk-ok,.mbtn,.tbtn,.rc-close,.typing-cancel{min-height:44px}
+.rc-close{width:44px;height:44px}
+.typing-cancel{padding:8px 13px}
 .consent{display:flex;gap:8px;align-items:flex-start;text-align:left;margin:18px auto 0;max-width:390px;color:var(--mut);font-size:11px;line-height:1.8}
+.consent.optional{margin-top:8px}
 .consent input{margin-top:4px;accent-color:var(--ink);flex:0 0 auto}
 .privacy-details{max-width:390px;margin:9px auto 0;text-align:left;color:var(--mut);font-size:10.5px;line-height:1.75}
 .privacy-details summary{cursor:pointer;color:var(--ink-2);text-underline-offset:3px}
@@ -862,12 +869,19 @@ button:disabled{cursor:not-allowed;filter:none}
 .support-notice{position:relative;margin:0 0 10px;padding:12px 38px 11px 13px;border-left:3px solid var(--wen);background:var(--wen-bg);color:var(--ink-2);font-size:11px;line-height:1.75}
 .support-notice b{display:block;color:var(--wen);font-size:12px;margin-bottom:2px}
 .support-notice p{margin:0}
-.support-notice button{position:absolute;right:8px;top:7px;width:30px;height:30px;border:0;background:transparent;color:var(--mut);cursor:pointer;font-size:15px}
+.support-notice button{position:absolute;right:3px;top:2px;width:44px;height:44px;border:0;background:transparent;color:var(--mut);cursor:pointer;font-size:15px}
+.mp-x{width:44px;height:44px;top:2px;right:2px}
 .intro-btn:disabled{opacity:.4;cursor:not-allowed;background:transparent!important;color:var(--mut)!important}
 .data-src a{color:var(--li);text-underline-offset:3px}
 .live-status{min-height:1px}
 .input-count{min-height:16px;margin-top:2px;text-align:right;color:var(--mut);font-size:10px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .input-count.over{color:var(--wen);font-weight:700}
+.inp-row textarea::placeholder{color:#6d706a;opacity:1}
+@media (prefers-contrast:more){
+  :root{--mut:#454842;--line:#b4b3a9;--line-2:#88887f}
+  .top{background:var(--paper)}
+  .inp-row textarea{border-color:var(--ink-2)}
+}
 @media (max-width:720px){
   .top{padding-bottom:27px}
   .top-in{position:relative;height:54px;gap:8px}
@@ -889,8 +903,8 @@ button:disabled{cursor:not-allowed;filter:none}
   .dock{padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
 }
 @media (max-width:380px){
-  .top-acts .tbtn{width:36px;height:36px;padding:0;font-size:0;letter-spacing:0}
-  .top-acts .tbtn::before{display:block;font-size:15px;line-height:34px;text-align:center}
+  .top-acts .tbtn{width:44px;height:44px;padding:0;font-size:0;letter-spacing:0}
+  .top-acts .tbtn::before{display:block;font-size:15px;line-height:42px;text-align:center}
   .top-acts #reportBtn::before{content:'✦'}
   .top-acts [data-action="data"]::before{content:'▦'}
   .top-acts [data-action="settings"]::before{content:'⚙'}
@@ -929,7 +943,7 @@ button:disabled{cursor:not-allowed;filter:none}
     <div class="gate-eyebrow">Polaris · Gate</div>
     <h2 class="gate-title" id="gateTitle">北辰</h2>
     <p class="gate-sub" id="gateSub">此星图仅向持有钥匙的人开放<br>请输入提供的 6 位动态验证码</p>
-    <input class="gate-input" id="gateInput" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="······" aria-label="6 位动态验证码" />
+    <input class="gate-input" id="gateInput" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="······" aria-label="6 位动态验证码" aria-describedby="gateSub gateErr" aria-invalid="false" />
     <br>
     <button type="button" class="gate-btn" id="gateBtn">进 入</button>
     <div class="gate-err" id="gateErr" role="alert" aria-live="assertive"></div>
@@ -960,10 +974,11 @@ button:disabled{cursor:not-allowed;filter:none}
       <p>谈心结束，属于你的<em>星图</em>会点亮：文理方位与星值、几张贴着你影子的星卡、可参考的 3+1+2 组合，还有一段写给你的话。它不替你做决定——<em>星星只指引方向，路要你自己走。</em></p>
     </div>
 
-    <label class="consent"><input type="checkbox" id="privacyConsent"><span>我已了解：我输入的内容会发送给模型服务用于生成回复；请不要填写姓名、电话、住址等可识别信息。谈心记录只保存在本机，可在设置中删除。</span></label>
+    <label class="consent"><input type="checkbox" id="privacyConsent"><span>我已了解：我输入的内容会发送给模型服务用于生成回复；请不要填写姓名、电话、住址等可识别信息。谈话是否保留在本机由下面的可选开关决定。</span></label>
+    <label class="consent optional"><input type="checkbox" id="localSaveConsent"><span>可选：在本机保留谈话记录 7 天，方便刷新后接回；不勾选也能正常使用。</span></label>
     <details class="privacy-details">
       <summary>数据与边界</summary>
-      <p>中转只为完成本轮请求保留短期状态，不记录谈心原文；本机记录默认保留 7 天，可随时清除。模型供应商会按其当时政策处理收到的内容。北辰不做心理诊断、录取判断或危机干预。</p>
+      <p>中转只为完成本轮请求保留短期状态，不记录谈心原文；只有勾选下方可选开关时，本机才会保留记录，最长 7 天，可随时清除。模型供应商会按其当时政策处理收到的内容。北辰不做心理诊断、录取判断或危机干预。</p>
     </details>
     <div class="profile-grid" aria-label="可选背景信息">
       <label>省份<select id="profileProvince"><option value="">暂不填写</option><option value="四川">四川</option><option value="其他省份">其他省份</option></select></label>
@@ -1123,11 +1138,11 @@ button:disabled{cursor:not-allowed;filter:none}
       <div class="dsec-t" data-reveal>三个决策工具 <small>规划通用框架</small></div>
       <div class="models-grid">
         <div class="model-card" data-reveal>
-          <h5>黄金三角</h5>
+          <h3>黄金三角</h3>
           <p>兴趣（能否坚持）× 能力（能否学好）× 前景（值不值得）。三者越协调，方向越稳；若某一角明显偏弱，需要继续核实，而不是直接替你下结论。</p>
         </div>
         <div class="model-card" data-reveal>
-          <h5>霍兰德 RIASEC</h5>
+          <h3>霍兰德 RIASEC</h3>
           <p>职业兴趣六型仅用于观察活动偏好，不能直接决定物理类或历史类：</p>
           <div class="holland">
             <div class="hl-row"><b>现实型 R</b><div class="hl-t"><div class="hl-f h-li" style="width:88%"></div></div><span>偏理</span></div>
@@ -1139,7 +1154,7 @@ button:disabled{cursor:not-allowed;filter:none}
           </div>
         </div>
         <div class="model-card" data-reveal>
-          <h5>SWOT 交叉</h5>
+          <h3>SWOT 交叉</h3>
           <p>内部：优势（学科排名）与劣势（短板科目）；外部：机会（赛道计划数）与威胁（组内竞争烈度）。四象对照后再下结论。</p>
         </div>
       </div>
@@ -1162,7 +1177,7 @@ button:disabled{cursor:not-allowed;filter:none}
         <div class="book" data-reveal><b>《生涯咨询与辅导》金树人</b><span>生涯规划经典教材，系统讲解霍兰德类型论与生涯发展理论</span></div>
         <div class="book" data-reveal><b>《你的生命有什么可能》古典</b><span>兴趣如何转化为职业路径，适合中学生读的生涯启蒙</span></div>
         <div class="book" data-reveal><b>《选考科目要求指引》教育部</b><span>高校各专业选科硬门槛的权威原文，选科前必查</span></div>
-        <div class="book" data-reveal><b>阳光高考 · 省考试院</b><span><a href="https://gaokao.chsi.com.cn/" target="_blank" rel="noreferrer noopener">阳光高考</a> 与本省教育考试院官网：招录计划与章程的官方入口</span></div>
+        <div class="book" data-reveal><b>阳光高考 · 省考试院</b><span><a href="https://gaokao.chsi.com.cn/" target="_blank" rel="noreferrer noopener">阳光高考</a> · <a href="https://www.sceea.cn/" target="_blank" rel="noreferrer noopener">四川省教育考试院</a>：招录计划、选科要求与章程的官方入口</span></div>
       </div>
     </div>
 
@@ -1433,15 +1448,15 @@ function buildReportInstructions(){
 const POST_REPORT_GUIDANCE = '\n【谈心继续】星图已生成。从现在起你是解答者：以 TA 的提问为主，回答完 TA 的问题即止，绝不再主动向 TA 提问，「想问你：」第二段整体省略。可引用数据与之前的对话细节，温暖而克制。若 TA 补充了重要的新信息，可轻声告诉 TA：想看一张全新的星图，可以点「重新测试」再聊一轮。不再输出报告，不再出选项。】';
 
 /* 领航自动星图的唯一判定(引导词与 respond 共用,两边必须永远一致) */
-function guidedAutoReportDue(){
-  return !reportDone && !reportRequested && MODE === 'guided' && turnCount >= 10 && !guidedAutoTried;
+function guidedAutoReportDue(turn = turnCount){
+  return !reportDone && !reportRequested && MODE === 'guided' && Number(turn) >= 10 && !guidedAutoTried;
 }
 
 /* 每一轮的引导（turnCount = 学生已回答的轮数，回答后进入对应引导） */
 function buildGuidance(n){
   if(reportRequested) return buildReportInstructions();                /* 学生点了「点亮星图」(含再次点亮) */
   if(reportDone) return POST_REPORT_GUIDANCE;
-  if(guidedAutoReportDue()) return buildReportInstructions();   /* 领航：满十轮的自动星图轮(只此一次) */
+  if(guidedAutoReportDue(n)) return buildReportInstructions();   /* 领航：满十轮的自动星图轮(只此一次) */
   if(MODE === 'open'){
     const g = openGuidance(n);
     return n >= OPEN_REPORT_MIN_TURNS ? g + OPEN_EVALUATION : g;
@@ -1514,9 +1529,52 @@ const STORAGE = (()=>{
   }
   return null;
 })();
-function storeGet(key){ try{ return STORAGE ? (STORAGE.getItem(key) || '') : ''; }catch(_){ return ''; } }
-function storeSet(key,value){ try{ if(STORAGE) STORAGE.setItem(key,String(value)); return true; }catch(_){ return false; } }
-function storeRemove(key){ try{ if(STORAGE) STORAGE.removeItem(key); }catch(_){ } }
+/* Authentication material is intentionally tab-scoped.  Conversation/profile
+   data may use localStorage only after the optional retention choice; a shared
+   device must never inherit a live gate ticket merely because that choice was
+   made.  If sessionStorage is unavailable, auth falls back to memory. */
+const AUTH_STORAGE = (()=>{
+  try{
+    const candidate = window.sessionStorage;
+    const probe = '__bc_auth_probe__';
+    candidate?.setItem(probe,'1'); candidate?.removeItem(probe);
+    return candidate || null;
+  }catch(_){ return null; }
+})();
+const AUTH_KEY_NAMES = new Set([
+  'bc_codex_gate_token_v3','bc_codex_gate_at_v3','bc_codex_gate_exp_v3',
+  'bc_codex_runs_v3','bc_codex_gate_sid_v3','bc_codex_gate_completion_v3'
+]);
+function isAuthStorageKey(key){
+  const normalized = String(key || '');
+  return AUTH_KEY_NAMES.has(normalized) || normalized.startsWith('bc_codex_gate_completion_v3:');
+}
+function storageForKey(key){ return isAuthStorageKey(key) ? AUTH_STORAGE : STORAGE; }
+/* Storage can be unavailable in private/embedded contexts. Keep only the
+   minimum session state in memory in that case; it disappears on reload. */
+const EPHEMERAL_STORE = new Map();
+function storeGet(key){
+  const target = storageForKey(key);
+  try{
+    if(target){
+      const value = target.getItem(key);
+      if(value !== null){ EPHEMERAL_STORE.set(key, value); return value || ''; }
+    }
+  }catch(_){ }
+  return EPHEMERAL_STORE.get(key) || '';
+}
+function storeSet(key,value){
+  const normalized = String(value);
+  let persisted = false;
+  const target = storageForKey(key);
+  try{ if(target){ target.setItem(key, normalized); persisted = true; } }catch(_){ }
+  EPHEMERAL_STORE.set(key, normalized);
+  return persisted || !target;
+}
+function storeRemove(key){
+  try{ storageForKey(key)?.removeItem(key); }catch(_){ }
+  EPHEMERAL_STORE.delete(key);
+}
 function hasConsent(){ return storeGet('beichen_codex_consent') === 'yes'; }
 function normalizeHistory(value){
   if(!Array.isArray(value) || value.length < 1 || value.length > MAX_SESSION_MESSAGES) return null;
@@ -1552,13 +1610,14 @@ function sanitizeReport(value){
   return out;
 }
 function saveSession(){
-  if(!hasConsent() || (turnCount < 1 && !reportDone)) return;
+  if(!hasConsent() || !hasLocalSaveConsent() || (turnCount < 1 && !reportDone)) return;
   try{
     const savedHistory = chatHistory.length > MAX_SESSION_MESSAGES
       ? [chatHistory[0], ...chatHistory.slice(-(MAX_SESSION_MESSAGES - 1))]
       : chatHistory.slice();
     const normalized = normalizeHistory(savedHistory) || [];
     const payload = {
+      schemaVersion: 3,
       history: normalized, turnCount: Math.max(0, Math.min(300, Number(turnCount)||0)),
       reportDone: !!reportDone, mode: MODE, lastReport: sanitizeReport(lastReport), reportOffered: !reportDone && !!reportOffered,
       reportAttempted: !reportDone && MODE === 'guided' && guidedAutoTried,   /* 领航自动星图已试过:刷新后不再自动重试,恢复「点亮星图」入口 */
@@ -1578,11 +1637,19 @@ function saveSession(){
 function clearSession(){ storeRemove(SESSION_KEY); }
 function restoreSession(){
   try{
-    if(!hasConsent()) return false;
+    if(!hasConsent() || !hasLocalSaveConsent()) return false;
     const s = JSON.parse(storeGet(SESSION_KEY)||'null');
     const restoredHistory = normalizeHistory(s?.history);
-    if(!s || !restoredHistory || !Number.isInteger(Number(s.turnCount)) || Number(s.turnCount) < 1 || !Number.isFinite(Number(s.savedAt)) || Date.now() - Number(s.savedAt) > SESSION_MAX_AGE_MS) return false;
-    if(s.gateSid && gateGet(GATE_SID_KEY) && s.gateSid !== gateGet(GATE_SID_KEY)) return false;
+    const savedAt = Number(s?.savedAt);
+    const age = Date.now() - savedAt;
+    if(!s || (s.schemaVersion !== undefined && s.schemaVersion !== 3) || !restoredHistory || !Number.isInteger(Number(s.turnCount)) || Number(s.turnCount) < 1 || !Number.isFinite(savedAt) || age < -5 * 60 * 1000 || age > SESSION_MAX_AGE_MS){
+      clearSession();
+      return false;
+    }
+    if(s.gateSid && gateGet(GATE_SID_KEY) && s.gateSid !== gateGet(GATE_SID_KEY)){
+      clearSession();
+      return false;
+    }
     if(s.mode === 'open' || s.mode === 'guided'){
       MODE = s.mode;
       inp.placeholder = MODE === 'open' ? '夜航 · 用自己的话说说看…' : '用自己的话，说你想说的…';
@@ -1869,7 +1936,7 @@ function addSubjectPicker(){
   const box = document.createElement('div'); box.className = 'picker';
   const SUBJECTS = ['数学','物理','化学','生物','历史','政治','地理'];
   box.innerHTML =
-    '<h5>学科手感</h5>'+
+    '<h3>学科手感</h3>'+
     '<div class="pk-sub">凭真实体感点选 · 不看努力后的成绩，看天然的手感</div>'+
     '<div class="pk-group"><div class="pk-group-lb"><i style="background:var(--li)"></i>学得轻松 / 有优势</div><div class="pk-chips" data-g="easy"></div></div>'+
     '<div class="pk-group"><div class="pk-group-lb"><i style="background:var(--wen)"></i>学得吃力 / 心里发怵</div><div class="pk-chips" data-g="hard"></div></div>'+
@@ -2111,7 +2178,7 @@ async function respond(guidance){
 
   /* 自适应星图：学生点「点亮星图」即生成；领航满十轮自动生成但只自动尝试一次——
      解析失败后不再逐轮静默重试(每次成功都会扣额度),改由「重新点亮星图」按钮显式触发(修 P-2) */
-  const autoGuidedReport = guidedAutoReportDue();
+  const autoGuidedReport = guidedAutoReportDue(ctx.turnNumber ?? turnCount);
   if(autoGuidedReport) guidedAutoTried = true;   /* 机会即刻消耗,成败与否都不影响"只试一次" */
   const expectingReport = reportRequested || autoGuidedReport;
   let bubble = null, streamed = '';
@@ -2426,7 +2493,7 @@ async function processResponse(rawInput, expectingReport, bubble, epoch){
 }
 
 function renderChoices(arr, hideHint){
-  if(!arr || !arr.length){ choicesWrap.classList.add('hide'); choicesEl.innerHTML=''; return; }
+  if(!arr || !arr.length){ choicesWrap.classList.add('hide'); choicesEl.innerHTML=''; syncChoiceBusyState(); return; }
   choicesWrap.classList.remove('hide');
   choicesHint.style.display = hideHint ? 'none' : '';
   choicesEl.innerHTML = '';
@@ -2440,6 +2507,7 @@ function renderChoices(arr, hideHint){
     b.onclick = ()=>send(label);
     choicesEl.appendChild(b);
   });
+  syncChoiceBusyState();
 }
 
 function renderPostReportChoices(){
@@ -2470,6 +2538,7 @@ function renderChips(arr){
     };
     choicesEl.appendChild(b);
   });
+  syncChoiceBusyState();
 }
 
 /* ─── 自适应星图：点亮入口与确认（先告知消耗再执行，把时机交给学生） ─── */
@@ -2591,7 +2660,11 @@ function parseReport(text){
     String(map['专业'] || '').split(/[、，,;；\s]+/).map(s=>s.trim()).filter(Boolean).slice(0,8)
       .forEach(name=>map._majors.push({name, reason:'', career:''}));
   }
-  const complete = REPORT_LABELS.every(label=>map[label]) && map.cards.length >= 5
+  const validDirection = /^(?:文科|理科|文理均衡|文理均衡类)/.test(String(map['方位'] || '').replace(/\s/g,''));
+  const parsedLean = parseInt(map['星值'], 10);
+  const hasNumericLean = Number.isFinite(parsedLean);
+  const complete = REPORT_LABELS.every(label=>map[label]) && validDirection
+    && hasNumericLean && map.cards.length >= 5 && map._majors.length >= 3
     && primaryCombo && alternateCombo;
   map._complete = Boolean(complete);
 
@@ -2600,8 +2673,7 @@ function parseReport(text){
   else if(dirTxt.includes('理')) dir = 'li';
   else if(dirTxt.includes('文')) dir = 'wen';
 
-  let lean = parseInt(map['星值'], 10);
-  const hasNumericLean = Number.isFinite(lean);
+  let lean = parsedLean;
   if(!hasNumericLean) lean = dir==='li' ? 68 : dir==='wen' ? 32 : 50;
   lean = Math.max(0, Math.min(100, lean));
 
@@ -2678,11 +2750,13 @@ function renderReport(r){
   const scopeEl = document.getElementById('reportScopeText');
   if(scopeEl){
     const context = [profileContext.province && ('省份：'+profileContext.province), profileContext.year && ('参考年份：'+profileContext.year), profileContext.grade && ('年级：'+profileContext.grade), profileContext.goal && ('目标：'+profileContext.goal)].filter(Boolean).join(' · ');
-    const missing = [];
-    if(!profileContext.province) missing.push('省份');
-    if(!profileContext.year) missing.push('年份');
-    missing.push('当前成绩/位次','目标院校与专业硬门槛','家庭/地域/健康等现实约束');
-    scopeEl.textContent = (context ? '本次背景 · '+context+'。' : '本次未填写省份、年份和其他背景。') + ' 这是探索性提示，不是志愿方案；正式决定前请核对本省当年官方要求。尚未掌握：'+missing.join('、')+'。';
+     const missing = [];
+     if(!profileContext.province) missing.push('省份');
+     if(!profileContext.year) missing.push('年份');
+     if(profileContext.province !== '四川') missing.push('本省适用的组合覆盖率与选科门槛');
+     if(profileContext.year && !['2026'].includes(String(profileContext.year))) missing.push('所选年份的最新招生口径');
+     missing.push('当前成绩/位次','目标院校与专业硬门槛','家庭/地域/健康等现实约束');
+     scopeEl.textContent = (context ? '本次背景 · '+context+'。' : '本次未填写省份、年份和其他背景。') + ' 页面内数据仅作四川 2025–2026 量级参考；这是探索性提示，不是志愿方案。正式决定前请核对本省当年官方要求。尚未掌握：'+missing.join('、')+'。';
   }
 
   // 星卡
@@ -2764,11 +2838,15 @@ let mjPopArm = null;
 function mjPopClose(immediate){
   if(!mjPopState) return false;
   const st = mjPopState; mjPopState = null;
+  const restorePill = !immediate && st.pop.contains(document.activeElement) && st.pill.isConnected;
   if(mjPopArm){ document.removeEventListener('pointerdown', mjPopArm, true); mjPopArm = null; }
   st.pill.classList.remove('on'); st.pill.setAttribute('aria-expanded','false');
   if(immediate){ st.pop.remove(); return true; }
   st.pop.classList.add('out');
-  setTimeout(()=>st.pop.remove(), 160);
+  setTimeout(()=>{
+    st.pop.remove();
+    if(restorePill) st.pill.focus({preventScroll:true});
+  }, 160);
   return true;
 }
 function openMajorPop(m, btn){
@@ -2782,7 +2860,7 @@ function openMajorPop(m, btn){
   pop.innerHTML =
     '<button type="button" class="mp-x" aria-label="关闭">✕</button>'+
     '<div class="mp-tag">专业解析 · MAJOR</div>'+
-    '<h6>'+esc(m.name)+'</h6>'+
+      '<h3>'+esc(m.name)+'</h3>'+
     (m.reason ? '<p class="mp-why">'+esc(m.reason)+'</p>' : '')+
     (m.career ? '<div class="mp-career"><div class="mp-lb">就业方向</div><p>'+esc(m.career)+'</p></div>' : '');
   card.appendChild(pop);
@@ -2806,6 +2884,7 @@ function openMajorPop(m, btn){
   pop.style.left = Math.min(Math.max(12, pillLeft), card.clientWidth - maxW - 12) + 'px';
   pop.style.visibility = '';
   pop.querySelector('.mp-x').onclick = (ev)=>{ ev.stopPropagation(); mjPopClose(); };
+  pop.querySelector('.mp-x')?.focus({preventScroll:true});
   /* 点卡片其他任何地方即收起(pill 上除外——让 pill 自己的 click 决定开/关/换) */
   mjPopArm = (ev)=>{
     if(!mjPopState) return;
@@ -2856,9 +2935,14 @@ document.addEventListener('keydown', (e)=>{
     if(mjPopState){ mjPopClose(); return; }
     closeOverlay(top); return;
   }
-  /* Tab 圈定在最上层弹窗内，键盘焦点不漏进被遮住的对话区 */
-  if(e.key === 'Tab' && top){
-    const card = document.getElementById(top).querySelector('.report-card, .data-card, .modal-card, .restart-card');
+  /* 可关闭弹窗、必经模式/序章/星门都要把键盘焦点留在当前层。 */
+  const blockingId = top
+    || (document.getElementById('modeModal')?.classList.contains('show') ? 'modeModal' : '')
+    || (document.getElementById('intro')?.classList.contains('show') ? 'intro' : '')
+    || (!document.getElementById('gate')?.classList.contains('pass') ? 'gate' : '');
+  if(e.key === 'Tab' && blockingId){
+    const root = document.getElementById(blockingId);
+    const card = root?.querySelector('.report-card, .data-card, .modal-card, .restart-card, .intro-in, .gate-in') || root;
     if(!card) return;
     const focusables = [...card.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
       .filter(x => !x.disabled && x.offsetParent !== null);
@@ -2901,6 +2985,7 @@ function countUp(el, delayMs, durMs){
 let revealIO = null;
 function rearmReveal(scope){
   /* 复位上一次打开留下的显现状态,让动画在这次打开时从头可播 */
+  if(scope._revealFallback){ clearTimeout(scope._revealFallback); scope._revealFallback = null; }
   scope.querySelectorAll('[data-reveal].revealed').forEach(t=>{
     t.classList.remove('revealed');
     t.style.animationDelay = '';
@@ -2929,6 +3014,20 @@ function revealWithin(scope){
     }, {threshold:0.12, rootMargin:'0px 0px -6% 0px'});
   }
   targets.forEach(t=>revealIO.observe(t));
+  /* 某些后台标签页/WebView 会建出 IntersectionObserver 却不派发回调。
+     给这一批元素一个最终兜底，确保内容不会永久保持 opacity:0。 */
+  if(scope._revealFallback) clearTimeout(scope._revealFallback);
+  scope._revealFallback = setTimeout(()=>{
+    let index = 0;
+    targets.forEach(t=>{
+      if(t.classList.contains('revealed')) return;
+      t.style.animationDelay = (index++ * 0.06).toFixed(2)+'s';
+      t.classList.add('revealed');
+      growFills(t);
+      t.querySelectorAll('.stat b').forEach((b,i)=>countUp(b, 120 + i*80));
+      try{ revealIO.unobserve(t); }catch(_){ }
+    });
+  }, 2600);
 }
 function openOverlay(id){
   const el = document.getElementById(id);
@@ -3188,7 +3287,7 @@ function fallbackCopy(txt, done){
 }
 
 function confirmRestart(){ openOverlay('restartModal'); }
-function restartFromConfirm(){ closeOverlay('restartModal'); restart(); }
+function restartFromConfirm(){ closeOverlay('restartModal',{immediate:true,skipFocus:true}); restart(); }
 
 function restart(){
   /* 先校验后中止：额度待同步/未验证时直接返回，不打断正在进行的生成 */
@@ -3247,13 +3346,14 @@ const GATE_EXP_KEY = 'bc_codex_gate_exp_v3';
 const GATE_RUNS_KEY = 'bc_codex_runs_v3';
 const GATE_SID_KEY = 'bc_codex_gate_sid_v3';
 const GATE_COMPLETION_KEY = 'bc_codex_gate_completion_v3';
-const GATE_REMEMBER_MS = 7 * 24 * 60 * 60 * 1000;        /* 与服务端 Token TTL（7 天）对齐；存 localStorage:关标签页/重启浏览器仍有效,重新验证自动覆盖,过期或清除本机记录后失效 */
+const GATE_REMEMBER_MS = 7 * 24 * 60 * 60 * 1000;        /* 与服务端 Token TTL（7 天）对齐；只存当前标签页，关闭标签页即失效 */
 const GATE_MAX_RUNS = 3;                            /* 每次验证允许 3 次完整对话（以星图生成为准） */
 
 const GATE_STORE = (()=>{
-  /* v2.6.15 用户拍板:票据存 localStorage(便利优先)——票在开着标签页时同样可被读取,
-     关标签页清除并不减少实际风险;7 天过期 / 3 次额度 / TOTP 重验 / 清除本机记录兜底不变 */
-  try{ return window.localStorage; }catch(_){ return window.sessionStorage; }
+  /* 仅供旧版死代码的兼容占位；vNext 的 gateGet/gateSet 走上面的
+     session-scoped AUTH_STORAGE，不读取旧版票据。 */
+  try{ return window.sessionStorage; }catch(_){ }
+  try{ return window.sessionStorage; }catch(_){ return null; }
 })();
 function gateGet(key){ try{ return GATE_STORE.getItem(key) || ''; }catch(_){ return ''; } }
 function gateSet(key, value){ try{ GATE_STORE.setItem(key, String(value)); }catch(_){} }
@@ -3459,6 +3559,24 @@ let activeRequestCtx = null;
 let bootTimers = [];
 let gateTimerHandle = null;
 let gateBusy = false;
+const choiceTabIndexes = new WeakMap();
+
+function stopGateTimer(){
+  if(gateTimerHandle){ clearInterval(gateTimerHandle); gateTimerHandle = null; }
+}
+function startGateTimer(){
+  stopGateTimer();
+  const timerEl = document.getElementById('gateTimer');
+  if(!timerEl) return;
+  timerEl.setAttribute('aria-hidden','true');
+  const tick = ()=>{
+    const left = 30 - Math.floor(Date.now()/1000) % 30;
+    const bar = timerEl.firstElementChild;
+    if(bar) bar.style.width = Math.max(0, Math.round(left / 30 * 100)) + '%';
+  };
+  tick();
+  gateTimerHandle = setInterval(tick, 1000);
+}
 
 function cancelledError(){
   const error = new Error('已取消');
@@ -3468,6 +3586,15 @@ function cancelledError(){
 }
 function cancelRequestContext(ctx){
   if(!ctx) return;
+  /* 完整星图已经落盘后，额度确认必须完成；重开/清除会先标记
+     discarded，因此仍可彻底中止旧请求。 */
+  if(ctx.committing && !ctx.discarded){
+    ctx.cancelRequested = true;
+    try{ ctx.controller?.abort(); }catch(_){ }
+    try{ ctx.intentController?.abort(); }catch(_){ }
+    announceStatus('星图已生成，正在确认额度');
+    return;
+  }
   ctx.cancelled = true;
   [ctx.controller, ctx.intentController, ctx.completionController].forEach(controller=>{
     try{ controller?.abort(); }catch(_){ }
@@ -3563,7 +3690,8 @@ async function askStream(messages, opt = {}){
     const ctrl = new AbortController();
     ctx.controller = ctrl;
     activeStreamAbort = ctrl;
-    const timer = setTimeout(()=>ctrl.abort(), timeoutMs);
+    let timedOut = false;
+    const timer = setTimeout(()=>{ timedOut = true; ctrl.abort(); }, timeoutMs);
     try{
       const headers = apiHeaders();
       if(opt.reportIntent) headers['X-Report-Intent'] = opt.reportIntent;
@@ -3615,6 +3743,12 @@ async function askStream(messages, opt = {}){
     }catch(err){
       lastErr = err;
       if(ctx.cancelled || err?.cancelled || userAborted || err?.name === 'AbortError' && ctx.cancelled){ throw err; }
+      if(timedOut){
+        const timeoutError = err && typeof err === 'object' ? err : new Error('等待超时');
+        timeoutError.code = timeoutError.code || 'BEICHEN_CLIENT_TIMEOUT';
+        timeoutError.status = timeoutError.status || 504;
+        throw timeoutError;
+      }
       const retryable = !err.status || RETRYABLE.has(Number(err.status));
       if(attempt < 2 && retryable){ await sleep(600 * Math.pow(2,attempt)); continue; }
       throw err;
@@ -3641,14 +3775,17 @@ async function ask(messages, opt = {}){
 
 function cancelStream(){
   userAborted = true;
+  const committing = !!activeRequestCtx?.committing && !activeRequestCtx?.discarded;
   if(activeRequestCtx) cancelRequestContext(activeRequestCtx);
   else if(activeStreamAbort){ try{ activeStreamAbort.abort(); }catch(_){ } }
-  announceStatus('已取消本次生成');
+  if(!committing) announceStatus('已取消本次生成');
 }
 
-async function respond(guidance){
+async function respond(guidance, options = {}){
   const epoch = talkEpoch;
-  const ctx = {epoch, cancelled:false, controller:null, intentController:null, completionController:null, frame:null};
+  const ctx = {epoch, turnNumber:Number.isInteger(options.turnNumber) ? options.turnNumber : null,
+    cancelled:false, discarded:false, committing:false, cancelRequested:false,
+    controller:null, intentController:null, completionController:null, frame:null, lastPaintAt:0, lastPaintLength:0};
   activeRequestCtx = ctx;
   userAborted = false;
   setBusy(true); showTyping();
@@ -3675,6 +3812,12 @@ async function respond(guidance){
         const stage = all.includes('【专业】') ? '辰在收拢专业方向' : all.includes('【组合】') ? '辰在核对选科组合' : '辰在描出你的星图';
         setTypingLabel(stage); return;
       }
+      /* 限制累计 Markdown 的重排频率：短片段按帧更新，长报告按时间/字数
+         批量提交，避免每个 token 都重新解析整段字符串。最终结果仍会完整渲染。 */
+      const now = performance.now();
+      if(now - ctx.lastPaintAt < 48 && all.length - ctx.lastPaintLength < 28) return;
+      ctx.lastPaintAt = now;
+      ctx.lastPaintLength = all.length;
       if(renderFrameFor(ctx) !== null) return;
       ctx.frame = requestAnimationFrame(()=>{
         ctx.frame = null;
@@ -3693,31 +3836,39 @@ async function respond(guidance){
     });
     if(ctx.frame){ cancelAnimationFrame(ctx.frame); ctx.frame=null; }
     if(epoch !== talkEpoch || ctx.cancelled) return;
+    if(ctx.turnNumber !== null) {
+      turnCount = Math.max(0, Math.min(300, ctx.turnNumber));
+      renderRail();
+    }
     chatHistory.push({role:'assistant',content:result.content});
     await processResponse(result.content, expectingReport, bubble, epoch, reportIntent, ctx);
   }catch(err){
     if(reportIntent) clearPendingReportIntent();
     if(epoch !== talkEpoch) return;
+    if(activeRequestCtx !== ctx) return;
     if(err?.name === 'AbortError' || ctx.cancelled || userAborted){
       if(bubble && bubble.parentElement) bubble.parentElement.remove();
       removeTyping();
       addMsg('ai','这次先停在这里。准备好时，可以重新发送上一句话。');
       renderChoices(['再试一次'], true);
       const retry = choicesEl.querySelector('.choc');
-      if(retry) retry.onclick = ()=>{ choicesEl.innerHTML=''; if(expectingReport) reportRequested=true; respond(guidance); };
+      if(retry) retry.onclick = ()=>{ choicesEl.innerHTML=''; if(expectingReport) reportRequested=true; respond(guidance, {turnNumber:ctx.turnNumber}); };
     }else{
       if(bubble && bubble.parentElement) bubble.innerHTML = renderTurnHTML(streamed || '…') + '<br><br><span class="error-note">⚠ '+esc(friendlyError(err))+'</span>';
       else addMsg('ai','⚠ '+esc(friendlyError(err)));
       renderChoices([expectingReport ? '重新点亮星图' : '再试一次'], true);
       const retry = choicesEl.querySelector('.choc');
-      if(retry) retry.onclick = ()=>{ choicesEl.innerHTML=''; if(expectingReport) reportRequested=true; respond(guidance); };
+      if(retry) retry.onclick = ()=>{ choicesEl.innerHTML=''; if(expectingReport) reportRequested=true; respond(guidance, {turnNumber:ctx.turnNumber}); };
       if(Number(err?.status) === 401) lockGate('验证已失效，请重新输入动态验证码');
     }
   }finally{
-    if(activeRequestCtx === ctx) activeRequestCtx = null;
     if(ctx.frame) cancelAnimationFrame(ctx.frame);
-    removeTyping(); setBusy(false);
-    if(epoch === talkEpoch) saveSession();
+    const ownsUi = activeRequestCtx === ctx && epoch === talkEpoch;
+    if(ownsUi){
+      activeRequestCtx = null;
+      removeTyping(); setBusy(false);
+      saveSession();
+    }
   }
 }
 
@@ -3783,17 +3934,30 @@ async function processResponse(rawInput, expectingReport, bubble, epoch, reportI
     return;
   }
   if(expectingReport && report && report._complete === true){
+    if(!reportIntent) throw new Error('BEICHEN_REPORT_INTENT_MISSING');
+    /* 先把完整报告和幂等完成请求写入本机，再确认云端额度。浏览器若在
+       确认期间崩溃，刷新后仍能展示报告，并只重试同一个 requestId。 */
+    const completionId = completionRequestId(reportIntent);
+    if(requestCtx) requestCtx.completionRequestId = completionId;
+    pendingCompletion = {intent:reportIntent, requestId:completionId};
+    quotaSyncPending = true;
+    lastReport = report;
+    reportDone = true;
+    reportRequested = false;
+    saveSession();
     let cloudQuota = null;
+    if(requestCtx) requestCtx.committing = true;
     try{ cloudQuota = await completeGateRun(reportIntent, requestCtx); }
     catch(error){
-      if(requestCtx?.cancelled || error?.name === 'AbortError') throw cancelledError();
+      if(requestCtx?.cancelled || error?.cancelled) throw cancelledError();
       quotaSyncPending = true;
-      pendingCompletion = pendingCompletion || {intent:reportIntent, requestId:completionRequestId(reportIntent)};
       toast('星图已生成，额度待同步');
+    }finally{
+      if(requestCtx) requestCtx.committing = false;
     }
     if(epoch !== undefined && epoch !== talkEpoch) return;
     if(cloudQuota) quotaSyncPending = false;
-    lastReport = report; reportDone = true; reportRequested = false; clearPendingReportIntent();
+    clearPendingReportIntent();
     renderReport(report);
     let runs = Number(cloudQuota?.runs); if(!Number.isFinite(runs)) runs = gateRuns();
     runs = Math.max(0, Math.min(GATE_MAX_RUNS, runs)); gateSet(GATE_RUNS_KEY, runs);
@@ -3857,10 +4021,10 @@ async function completeGateRun(intent, requestCtx){
       if(!res.ok || !data.token){ const e=new Error(data?.error?.message || 'BEICHEN_AUTH_EXPIRED'); e.status=res.status; throw e; }
       if(requestCtx?.cancelled) throw cancelledError();
     setGateToken(data.token); if(data.sid) gateSet(GATE_SID_KEY,data.sid);
-    gateSet(GATE_RUNS_KEY,Number(data.runs)||0);
+      gateSet(GATE_RUNS_KEY,clampGateRuns(data.runs));
       const oldExp = Number(gateGet(GATE_EXP_KEY)||0), nextExp = Date.now() + Math.max(0,Number(data.expiresIn)||GATE_REMEMBER_MS);
     gateSet(GATE_EXP_KEY, oldExp > Date.now() ? Math.min(oldExp,nextExp) : nextExp);
-      broadcastGateUpdate({sid:gateGet(GATE_SID_KEY), token:data.token, runs:Number(data.runs)||0, expiresAt:Number(gateGet(GATE_EXP_KEY)||0)});
+      broadcastGateUpdate({sid:gateGet(GATE_SID_KEY), token:data.token, runs:clampGateRuns(data.runs), expiresAt:Number(gateGet(GATE_EXP_KEY)||0)});
       storeRemove(TAB_COMPLETION_KEY); pendingCompletion=null; return data;
     }catch(error){
       lastError=error;
@@ -3877,10 +4041,23 @@ async function completeGateRun(intent, requestCtx){
 
 async function retryQuotaSync(){
   if(waiting || !quotaSyncPending || !pendingCompletion?.intent) return;
+  const epoch = talkEpoch;
+  const ctx = {epoch, cancelled:false, discarded:false, committing:true, cancelRequested:false,
+    controller:null, intentController:null, completionController:null, frame:null};
+  activeRequestCtx = ctx;
   setBusy(true); toast('正在同步本次额度…');
-  try{ await completeGateRun(pendingCompletion.intent); quotaSyncPending=false; renderPostReportChoices(); saveSession(); toast('额度已同步，可以继续追问'); }
-  catch(error){ toast('额度仍未同步，请稍后再试'); if(Number(error?.status)===401) lockGate('验证已失效，请重新输入动态验证码'); }
-  finally{ setBusy(false); }
+  try{
+    await completeGateRun(pendingCompletion.intent, ctx);
+    if(ctx.cancelled || epoch !== talkEpoch) return;
+    quotaSyncPending=false; renderPostReportChoices(); saveSession(); toast('额度已同步，可以继续追问');
+  }catch(error){
+    if(ctx.cancelled || epoch !== talkEpoch) return;
+    toast('额度仍未同步，请稍后再试');
+    if(Number(error?.status)===401) lockGate('验证已失效，请重新输入动态验证码');
+  }finally{
+    ctx.committing = false;
+    if(activeRequestCtx === ctx && epoch === talkEpoch){ activeRequestCtx=null; setBusy(false); }
+  }
 }
 
 /* ═══════════════════════════ vNext 生命周期与交互收口 ═══════════════════════════
@@ -3890,6 +4067,7 @@ async function retryQuotaSync(){
    - 弹窗、返回键、取消请求和重新测试互相可证明地隔离。 */
 const PROFILE_KEY = 'beichen_codex_profile_v3';
 const CONSENT_KEY = 'beichen_codex_consent';
+const PERSIST_KEY = 'beichen_codex_persist_v3';
 const MODE_KEY = 'beichen_codex_mode_v3';
 const INTRO_SEEN_KEY = 'beichen_codex_intro_seen_v3';
 const TAB_ID = (()=>{
@@ -3912,7 +4090,7 @@ try{
       const data = event?.data;
       if(!data || data.type !== 'gate-update' || !data.sid || data.sid !== gateGet(GATE_SID_KEY)) return;
       if(typeof data.token === 'string' && data.token) setGateToken(data.token);
-      if(Number.isFinite(Number(data.runs))) gateSet(GATE_RUNS_KEY, Math.max(0, Math.min(GATE_MAX_RUNS, Number(data.runs))));
+      if(Number.isFinite(Number(data.runs))) gateSet(GATE_RUNS_KEY, clampGateRuns(data.runs));
       if(Number.isFinite(Number(data.expiresAt)) && Number(data.expiresAt) > Date.now()) gateSet(GATE_EXP_KEY, Number(data.expiresAt));
       refreshSettingsStats?.();
     };
@@ -3921,9 +4099,12 @@ try{
 function broadcastGateUpdate(data){ try{ gateChannel?.postMessage({type:'gate-update', ...data}); }catch(_){ } }
 try{ window.addEventListener('pagehide',()=>{ try{ gateChannel?.close(); }catch(_){ } },{once:true}); }catch(_){ }
 const KNOWN_LOCAL_KEYS = [
-  SESSION_KEY, PROFILE_KEY, CONSENT_KEY, MODE_KEY, INTRO_SEEN_KEY,
+  SESSION_KEY, PROFILE_KEY, CONSENT_KEY, PERSIST_KEY, MODE_KEY, INTRO_SEEN_KEY,
   GATE_TOKEN_KEY, GATE_AT_KEY, GATE_EXP_KEY, GATE_RUNS_KEY,
-  GATE_SID_KEY, GATE_COMPLETION_KEY, 'bc_mode', 'beichen_cfg'
+  GATE_SID_KEY, GATE_COMPLETION_KEY, 'bc_mode', 'beichen_cfg',
+  /* 仅在用户主动清除本机记录时清理旧版残留；运行时永不读取这些键。 */
+  'beichen_session_v1', 'bc_gate_token', 'bc_gate', 'bc_gate_exp',
+  'bc_runs', 'bc_gate_completion_request'
 ];
 
 function eachBrowserStorage(callback){
@@ -3932,6 +4113,8 @@ function eachBrowserStorage(callback){
   }
 }
 function removeKnownKeys(){
+  KNOWN_LOCAL_KEYS.forEach(key=>EPHEMERAL_STORE.delete(key));
+  [...EPHEMERAL_STORE.keys()].forEach(key=>{ if(String(key).startsWith(GATE_COMPLETION_KEY+':')) EPHEMERAL_STORE.delete(key); });
   eachBrowserStorage(storage=>{
     KNOWN_LOCAL_KEYS.forEach(key=>{ try{ storage.removeItem(key); }catch(_){ } });
     try{
@@ -3943,6 +4126,7 @@ function removeKnownKeys(){
   });
 }
 function hasConsent(){ return storeGet(CONSENT_KEY) === 'yes'; }
+function hasLocalSaveConsent(){ return storeGet(PERSIST_KEY) === 'yes'; }
 function relayConfigured(){
   return /^https?:\/\/[^\s/]+(?::\d+)?$/i.test(RELAY) && !RELAY.includes('__RELAY_ORIGIN__');
 }
@@ -3980,12 +4164,15 @@ function setProfileFromForm(){
     year: ['','2026','2027','2028'].includes(String(year)) ? String(year) : '2026',
     goal: ['','整理感受','了解选科路径','准备志愿核验'].includes(goal) ? goal : ''
   };
-  storeSet(PROFILE_KEY, JSON.stringify(profileContext));
+  if(hasLocalSaveConsent()) storeSet(PROFILE_KEY, JSON.stringify(profileContext));
+  else storeRemove(PROFILE_KEY);
   saveSession();
 }
 function loadProfile(){
   let saved = null;
-  try{ saved = JSON.parse(storeGet(PROFILE_KEY) || 'null'); }catch(_){ saved = null; }
+  if(hasLocalSaveConsent()){
+    try{ saved = JSON.parse(storeGet(PROFILE_KEY) || 'null'); }catch(_){ saved = null; }
+  }
   if(saved && typeof saved === 'object'){
     profileContext = {
       province: ['','四川','其他省份'].includes(saved.province) ? saved.province : '',
@@ -4049,12 +4236,52 @@ function setGateToken(value){
   if(token) gateSet(GATE_TOKEN_KEY, token); else gateRemove(GATE_TOKEN_KEY);
 }
 function gateAuthEndpoint(path){ return RELAY + path; }
-function gateRuns(){ return Math.max(0, Math.min(GATE_MAX_RUNS, Number(gateGet(GATE_RUNS_KEY) || 0))); }
+function clampGateRuns(value){
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.max(0, Math.min(GATE_MAX_RUNS, Math.floor(n))) : 0;
+}
+function gateRuns(){ return clampGateRuns(gateGet(GATE_RUNS_KEY)); }
 function gateOk(){
   const token = gateToken();
+  const sid = gateGet(GATE_SID_KEY);
   const at = Number(gateGet(GATE_AT_KEY) || 0);
   const exp = Number(gateGet(GATE_EXP_KEY) || 0);
-  return !!(token && at > 0 && exp > Date.now() && gateRuns() < GATE_MAX_RUNS);
+  const now = Date.now();
+  return !!(token && /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(token)
+    && /^[a-f0-9]{32}$/.test(sid) && at > 0 && at <= now + 5 * 60 * 1000
+    && exp > now && exp - at <= GATE_REMEMBER_MS + 5 * 60 * 1000
+    && gateRuns() < GATE_MAX_RUNS);
+}
+
+function syncChoiceBusyState(){
+  const busy = !!waiting;
+  choicesWrap.setAttribute('aria-disabled', busy ? 'true' : 'false');
+  choicesWrap.setAttribute('aria-busy', busy ? 'true' : 'false');
+  choicesEl.querySelectorAll('button.choc').forEach(button=>{
+    if(busy){
+      if(!choiceTabIndexes.has(button)) choiceTabIndexes.set(button, {
+        tabindex: button.getAttribute('tabindex'),
+        disabled: button.disabled,
+        ariaDisabled: button.getAttribute('aria-disabled')
+      });
+      button.disabled = true;
+      button.tabIndex = -1;
+      button.setAttribute('aria-disabled','true');
+    }else{
+      const previous = choiceTabIndexes.get(button);
+      if(previous){
+        button.disabled = !!previous.disabled;
+        if(previous.tabindex === null) button.removeAttribute('tabindex');
+        else button.setAttribute('tabindex', previous.tabindex);
+        if(previous.ariaDisabled === null) button.removeAttribute('aria-disabled');
+        else button.setAttribute('aria-disabled', previous.ariaDisabled);
+        choiceTabIndexes.delete(button);
+      }else{
+        button.disabled = false;
+        button.removeAttribute('aria-disabled');
+      }
+    }
+  });
 }
 
 function setBusy(busy){
@@ -4064,7 +4291,7 @@ function setBusy(busy){
   choicesWrap.classList.toggle('dis', !!busy);
   inp.setAttribute('aria-busy', busy ? 'true' : 'false');
   msgsEl.setAttribute('aria-busy', busy ? 'true' : 'false');
-  if(!busy) announceStatus('');
+  syncChoiceBusyState();
 }
 
 async function send(preset){
@@ -4081,13 +4308,12 @@ async function send(preset){
     if(preset == null){ autoH(inp); inp.focus(); }
     return;
   }
-  if(preset == null){ inp.value = ''; autoH(inp); }
+  if(preset == null){ inp.value = ''; autoH(inp); updateInputCount(inp); }
   maybeShowSupport(text);
   addMsg('user', mdLite(text));
   chatHistory.push({role:'user', content:text});
-  turnCount = Math.min(300, turnCount + 1);
-  renderRail();
-  await respond(buildGuidance(turnCount));
+  const nextTurn = Math.min(300, turnCount + 1);
+  await respond(buildGuidance(nextTurn), {turnNumber:nextTurn});
 }
 
 async function continueAsk(question){
@@ -4102,9 +4328,8 @@ async function continueAsk(question){
   if(!text) return;
   addMsg('user', mdLite(text));
   chatHistory.push({role:'user', content:text});
-  turnCount = Math.min(300, turnCount + 1);
-  renderRail();
-  await respond(POST_REPORT_GUIDANCE);
+  const nextTurn = Math.min(300, turnCount + 1);
+  await respond(POST_REPORT_GUIDANCE, {turnNumber:nextTurn});
 }
 
 function clearBootTimers(){
@@ -4147,17 +4372,20 @@ function restart(){
   }
   talkEpoch += 1;
   clearBootTimers();
-  if(activeRequestCtx) cancelRequestContext(activeRequestCtx);
+  if(activeRequestCtx){ activeRequestCtx.discarded = true; cancelRequestContext(activeRequestCtx); activeRequestCtx = null; }
   if(activeStreamAbort){ try{ activeStreamAbort.abort(); }catch(_){ } }
   stopReportWait(); removeTyping(); clearPendingReportIntent();
   pendingCompletion = null; gateRemove(TAB_COMPLETION_KEY); gateRemove(GATE_COMPLETION_KEY);
   chatHistory = []; turnCount = 0; reportDone = false; reportRequested = false;
   guidedAutoTried = false; reportOffered = false; lastReport = null;
   quotaSyncPending = false; waiting = false; booted = false;
+  setBusy(false);
+  clearSession();
   msgsEl.innerHTML = ''; choicesEl.innerHTML = ''; choicesWrap.classList.remove('hide','dis'); choicesHint.style.display = '';
   inp.value = ''; autoH(inp); updateInputCount(inp);
   document.getElementById('reportBtn').style.display = 'none';
-  closeOverlay('reportModal'); closeOverlay('reportAskModal'); closeOverlay('settingsModal'); closeOverlay('dataModal');
+  const support = document.getElementById('supportNotice'); if(support) support.hidden = true;
+  ['reportModal','reportAskModal','settingsModal','dataModal','restartModal'].forEach(id=>closeOverlay(id,{immediate:true,skipFocus:true}));
   renderRail(); showModeSelect(); toast('我们重新开始');
 }
 
@@ -4211,17 +4439,19 @@ function closeOverlay(id, opts){
   const el = document.getElementById(id);
   if(!el || !el.classList.contains('show') || el.dataset.closing) return;
   if(id === 'reportModal') mjPopClose(true);
-  el.dataset.closing = '1'; el.classList.add('closing');
-  el._closeTimer = setTimeout(()=>{
+  const finish = ()=>{
     el.classList.remove('show','closing'); delete el.dataset.closing; el.setAttribute('aria-hidden','true'); el._closeTimer = null;
     syncAppInert();
-    if(el._prevFocus?.isConnected) el._prevFocus.focus({preventScroll:true});
+    if(!(opts && opts.skipFocus) && el._prevFocus?.isConnected) el._prevFocus.focus({preventScroll:true});
     el._prevFocus = null;
     if(!(opts && opts.fromPop) && !topDismissible() && window.history.state?.bcOv){
       ovPopGuard = true;
       try{ window.history.back(); }catch(_){ ovPopGuard = false; }
     }
-  }, 190);
+  };
+  if(opts && opts.immediate){ finish(); return; }
+  el.dataset.closing = '1'; el.classList.add('closing');
+  el._closeTimer = setTimeout(finish, 190);
 }
 function showModeSelect(){
   if(!gateOk()) return lockGate('请先输入动态验证码');
@@ -4247,9 +4477,11 @@ function chooseMode(mode){
 }
 
 function lockGate(message){
-  if(activeRequestCtx) cancelRequestContext(activeRequestCtx);
+  if(activeRequestCtx){ activeRequestCtx.discarded = true; cancelRequestContext(activeRequestCtx); activeRequestCtx = null; }
+  stopReportWait(); removeTyping(); setBusy(false);
   const gate = document.getElementById('gate');
   gate?.classList.remove('pass'); gate?.setAttribute('aria-hidden','false');
+  startGateTimer();
   syncAppInert();
   hideIntro();
   const mode = document.getElementById('modeModal'); mode?.classList.remove('show','closing'); mode?.setAttribute('aria-hidden','true');
@@ -4265,57 +4497,67 @@ async function gateTry(){
   if(gateBusy) return;
   const input = document.getElementById('gateInput'), button = document.getElementById('gateBtn'), err = document.getElementById('gateErr');
   const code = String(input?.value || '').replace(/\D/g,'').slice(0,6);
-  if(code.length !== 6){ if(err) err.textContent='请输入 6 位动态验证码'; input?.focus(); return; }
-  if(!relayConfigured()){ if(err) err.textContent='尚未配置独立中转地址，请联系维护者'; return; }
+  if(code.length !== 6){ if(err) err.textContent='请输入 6 位动态验证码'; input?.setAttribute('aria-invalid','true'); input?.focus(); return; }
+  if(!relayConfigured()){ if(err) err.textContent='尚未配置独立中转地址，请联系维护者'; input?.setAttribute('aria-invalid','true'); return; }
   gateBusy = true; if(button) button.disabled = true; if(err) err.textContent='正在核对星位…';
   const controller = new AbortController(); const timer = setTimeout(()=>controller.abort(),12000);
   try{
     const response = await fetch(gateAuthEndpoint('/verify'), {method:'POST', signal:controller.signal,
       headers:{'Content-Type':'application/json','Accept':'application/json','X-Client-Version':APP_VERSION}, body:JSON.stringify({code})});
     let data = {}; try{ data = await response.json(); }catch(_){ }
-    if(!response.ok || !data.token){
+    if(!response.ok || !data.token || !/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(String(data.token)) || !/^[a-f0-9]{32}$/.test(String(data.sid || ''))){
       if(err) err.textContent = response.status === 429 ? '尝试次数过多，请稍后再试' : '动态验证码不正确或已过期，请换当前验证码重试';
-      if(input){ input.value=''; input.focus(); }
+      if(input){ input.value=''; input.setAttribute('aria-invalid','true'); input.focus(); }
       return;
     }
     setGateToken(data.token); if(data.sid) gateSet(GATE_SID_KEY,data.sid);
-    gateSet(GATE_AT_KEY,Date.now()); gateSet(GATE_RUNS_KEY,Number(data.runs)||0);
-    gateSet(GATE_EXP_KEY,Date.now()+Math.max(60000,Number(data.expiresIn)||GATE_REMEMBER_MS));
-    broadcastGateUpdate({sid:gateGet(GATE_SID_KEY), token:data.token, runs:Number(data.runs)||0, expiresAt:Number(gateGet(GATE_EXP_KEY)||0)});
+    gateSet(GATE_AT_KEY,Date.now()); gateSet(GATE_RUNS_KEY,clampGateRuns(data.runs));
+    const ttl = Number(data.expiresIn);
+    gateSet(GATE_EXP_KEY,Date.now()+Math.min(GATE_REMEMBER_MS, Math.max(60000,Number.isFinite(ttl) ? ttl : GATE_REMEMBER_MS)));
+    broadcastGateUpdate({sid:gateGet(GATE_SID_KEY), token:data.token, runs:clampGateRuns(data.runs), expiresAt:Number(gateGet(GATE_EXP_KEY)||0)});
+    stopGateTimer();
     gateRemove(TAB_COMPLETION_KEY); gateRemove(GATE_COMPLETION_KEY); pendingCompletion=null; quotaSyncPending=false;
     if(err) err.textContent='';
+    input?.setAttribute('aria-invalid','false');
     const gate = document.getElementById('gate'); gate?.classList.add('pass'); gate?.setAttribute('aria-hidden','true');
     syncAppInert();
     setTimeout(()=>{ if(restartAfterVerify){ restartAfterVerify=false; restart(); } else enterAfterGate(); }, 420);
   }catch(error){
     if(err) err.textContent = error?.name === 'AbortError' ? '验证服务响应超时，请检查网络后再试' : '验证服务暂时不可用，请稍后再试';
+    input?.setAttribute('aria-invalid','true');
   }finally{ clearTimeout(timer); gateBusy=false; if(button) button.disabled=false; }
 }
 function setupGate(){
   loadProfile();
   const gate = document.getElementById('gate'), input = document.getElementById('gateInput'), button = document.getElementById('gateBtn');
-  const consent = document.getElementById('privacyConsent'), introButton = document.getElementById('introBtn');
-  if(consent){ consent.checked = hasConsent(); consent.onchange = ()=>{ if(consent.checked) storeSet(CONSENT_KEY,'yes'); else { storeRemove(CONSENT_KEY); clearSession(); } updateIntroButton(); }; }
+  const consent = document.getElementById('privacyConsent'), localSave = document.getElementById('localSaveConsent'), introButton = document.getElementById('introBtn');
+  if(consent){ consent.checked = hasConsent(); consent.onchange = ()=>{ if(consent.checked) storeSet(CONSENT_KEY,'yes'); else { storeRemove(CONSENT_KEY); storeRemove(PERSIST_KEY); storeRemove(PROFILE_KEY); if(localSave) localSave.checked=false; clearSession(); } updateIntroButton(); }; }
+  if(localSave){
+    localSave.checked = hasLocalSaveConsent();
+    localSave.onchange = ()=>{
+      if(localSave.checked){ storeSet(PERSIST_KEY,'yes'); setProfileFromForm(); saveSession(); }
+      else { storeRemove(PERSIST_KEY); storeRemove(PROFILE_KEY); clearSession(); }
+    };
+  }
   ['profileProvince','profileGrade','profileYear','profileGoal'].forEach(id=>{ const select=document.getElementById(id); if(select) select.onchange=setProfileFromForm; });
   if(introButton) introButton.onclick=startIntro;
   if(button) button.onclick=gateTry;
-  if(input){ input.oninput=()=>{ input.value=input.value.replace(/\D/g,'').slice(0,6); }; input.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); gateTry(); } }; }
+  if(input){ input.oninput=()=>{ input.value=input.value.replace(/\D/g,'').slice(0,6); input.setAttribute('aria-invalid','false'); }; input.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); gateTry(); } }; }
   updateIntroButton();
   updateInputCount(inp);
-  if(gateTimerHandle) clearInterval(gateTimerHandle);
-  const timerEl = document.getElementById('gateTimer');
-  const tick=()=>{ const left=30-Math.floor(Date.now()/1000)%30; const bar=timerEl?.firstElementChild; if(bar) bar.style.width=Math.max(0,Math.round(left/30*100))+'%'; };
-  tick(); gateTimerHandle=setInterval(tick,1000);
+  startGateTimer();
   const params = new URLSearchParams(location.search);
   if(params.has('relock')){
      [GATE_TOKEN_KEY,GATE_AT_KEY,GATE_EXP_KEY,GATE_RUNS_KEY,GATE_SID_KEY,GATE_COMPLETION_KEY,TAB_COMPLETION_KEY].forEach(gateRemove);
     clearSession();
   }
   if(gateOk()){
+    stopGateTimer();
     gate?.classList.add('pass'); gate?.setAttribute('aria-hidden','true');
     syncAppInert();
     setTimeout(enterAfterGate, 420);
   }else{
+    startGateTimer();
     gate?.classList.remove('pass'); gate?.setAttribute('aria-hidden','false');
     syncAppInert();
     const had = !!gateToken() || !!gateGet(GATE_AT_KEY);
@@ -4338,12 +4580,12 @@ function setupViewport(){
 
 function renderRail(){
   const rail=document.getElementById('rail'); if(!rail) return;
-  rail.innerHTML=''; rail.setAttribute('role','list');
+  rail.innerHTML=''; rail.removeAttribute('role'); rail.setAttribute('aria-label','谈心阶段');
   const act=activeAct(turnCount), ready=MODE==='open'&&!reportDone&&(reportOffered||turnCount>=OPEN_REPORT_FORCE_TURNS);
   ACTS.forEach((label,index)=>{
     if(index>0){ const line=document.createElement('div'); line.className='rail-line'+(index<act?' on':''); line.setAttribute('aria-hidden','true'); rail.appendChild(line); }
     const action=ready && index===ACTS.length-1;
-    const step=document.createElement(action?'button':'div'); step.className='rail-step'+(action?' ready rail-action':''); step.setAttribute('role','listitem');
+    const step=document.createElement(action?'button':'div'); step.className='rail-step'+(action?' ready rail-action':'');
     if(action){ step.type='button'; step.title='已聊 '+turnCount+' 轮 · 点这里点亮星图'; step.setAttribute('aria-label','星图，可点亮'); step.onclick=openReportAsk; }
     else if(index+1===act){ step.classList.add('active'); step.setAttribute('aria-current','step'); }
     else if(index+1<act) step.classList.add('done');
@@ -4379,8 +4621,8 @@ function wipeLocalData(button){
     wipeTimer=setTimeout(()=>{ wipeArmed=false; if(button){ button.textContent='清除本机记录'; button.classList.remove('danger'); } },3200); return;
   }
   clearTimeout(wipeTimer); wipeArmed=false;
-  talkEpoch+=1; if(activeRequestCtx){ activeRequestCtx.cancelled=true; try{ activeRequestCtx.controller?.abort(); }catch(_){ } }
-  clearBootTimers(); removeKnownKeys(); closeOverlay('settingsModal'); toast('已清除本机的验证与谈心记录');
+  talkEpoch+=1; if(activeRequestCtx){ activeRequestCtx.discarded=true; cancelRequestContext(activeRequestCtx); activeRequestCtx=null; }
+  clearBootTimers(); stopReportWait(); removeTyping(); setBusy(false); removeKnownKeys(); closeOverlay('settingsModal'); toast('已清除本机的验证与谈心记录');
   setTimeout(()=>location.reload(),700);
 }
 

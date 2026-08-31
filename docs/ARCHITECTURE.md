@@ -2,7 +2,7 @@
 
 ## 边界
 
-本目录属于 `beichen-codex` 独立发布，不共享历史仓库的 Git 状态、Pages 入口、Web Storage 键、TOTP seed、session secret 或云函数。历史素材只作阅读与演进记录；Pages 构建脚本用白名单复制资源，不能把归档目录误发布。
+本目录属于 `beichen-codex` 独立发布，不共享历史仓库的 Git 状态、Pages 入口、Web Storage 键或云函数。历史素材只作阅读与演进记录；Pages 构建脚本用白名单复制资源，不能把归档目录误发布。新函数的运行状态与签名密钥独立注入；为保持现有操作员动态码兼容，部署时可能暂时复用同一 TOTP seed，正式公开前应按安全流程单独轮换。
 
 ## 请求生命周期
 
@@ -10,7 +10,7 @@
 2. 日常聊天先验证当前 `jti/seq/runs`，再预留一个会话轮次；上游失败或客户端断开只释放预留，不增加已用轮次。
 3. 报告先用规范化消息的 SHA-256 申请短时 intent；中转重新计算摘要，拒绝缺失/错绑 intent 的报告请求。
 4. 上游完整返回后，前端只接受 `_complete === true` 的报告；`/run/complete` 以 `sid + requestId + intent` 原子记账并返回可重放 receipt。
-5. 前端保存结构化文本而非 HTML，并在恢复时重新通过渲染器转义；7 天后或用户清除后不恢复。
+5. 前端把认证票据放在当前标签页的 sessionStorage（不可用时仅留内存），把结构化文本的 7 天持久化作为明确可选项；恢复时重新通过渲染器转义，过期或用户清除后不恢复。
 
 ## 失败语义
 
@@ -28,9 +28,9 @@
 生产适配器需要实现：
 
 ```js
-get(sid) -> state | null
-set(sid, state) -> state
-withLock(sid, async callback) -> callback result
+get(sid) -> state | null (or Promise)
+set(sid, state) -> state (or Promise)
+withLock(sid, async callback) -> callback result (atomic)
 ```
 
 `withLock` 必须在外部存储中完成原子读-改-写，并保留 `exp`、`jti`、`seq`、`runs`、`turns`、`pendingTurns`、`intents`、`reportSuccesses` 与 `completions`。每个集合都要有 TTL/上限清理；不能把 JSON 字符串拼接当作 CAS。注入方式为进程启动前设置 `globalThis.__BEICHEN_STATE_STORE`，或调用导出的 `setStateStore(adapter)`。请求不能动态注入适配器。

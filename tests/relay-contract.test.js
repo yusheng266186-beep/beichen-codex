@@ -10,9 +10,12 @@ process.env.GATE_TOTP_SECRET = 'JBSWY3DPEHPK3PXP';
 process.env.GATE_SESSION_SECRET = 'codex-test-session-secret-'.repeat(3);
 process.env.QIANFAN_API_KEY = 'test-provider-key';
 process.env.CORS_ALLOWED_ORIGINS = 'http://127.0.0.1';
+process.env.SSE_HEARTBEAT_MS = '1000';
 
 const relay = require(path.join(__dirname, '..', 'scf-relay.js'));
 
+let slowUpstream = false;
+let abruptUpstream = false;
 function fakeUpstreamRequester(options, callback) {
   const request = new EventEmitter();
   request.destroyed = false;
@@ -24,12 +27,19 @@ function fakeUpstreamRequester(options, callback) {
       response.statusCode = 200;
       response.headers = {'content-type': 'text/event-stream'};
       callback(response);
-      setImmediate(() => {
+      if (abruptUpstream) {
+        response.emit('data', Buffer.from('data: {"choices":[{"delta":{"content":"partial"}}]}\n\n'));
+        response.emit('close');
+        return;
+      }
+      const emit = () => {
         if (request.destroyed) return;
         response.emit('data', Buffer.from('data: {"choices":[{"delta":{"content":"ok"}}]}\n\n'));
         response.emit('data', Buffer.from('data: [DONE]\n\n'));
         response.emit('end');
-      });
+      };
+      if (slowUpstream) setTimeout(emit, 1400);
+      else setImmediate(emit);
     });
   };
   request.destroy = () => {
@@ -55,8 +65,10 @@ function request(server, method, url, headers = {}, body) {
       }, headers)
     }, res => {
       const chunks = [];
+      let ended = false;
       res.on('data', chunk => chunks.push(chunk));
-      res.on('end', () => resolve({status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks).toString('utf8')}));
+      res.on('end', () => { ended = true; resolve({status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks).toString('utf8')}); });
+      res.on('close', () => { if (!ended) reject(new Error('response aborted')); });
     });
     req.on('error', reject);
     if (payload) req.write(payload);
@@ -93,7 +105,14 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
 
 /* HTTP flow checks use a fake upstream and never contact Qianfan. */
 (async () => {
-  relay.store.clear();
+  const memoryStore = relay.store;
+  memoryStore.clear();
+  /* Exercise the async adapter contract without contacting an external KV. */
+  relay.setStateStore({
+    get: async sid => memoryStore.get(sid),
+    set: async (sid, state) => memoryStore.set(sid, state),
+    withLock: (sid, callback) => memoryStore.withLock(sid, callback)
+  });
   relay.setUpstreamRequester(fakeUpstreamRequester);
   const server = relay.createServer();
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -103,6 +122,7 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
 
     const verified = await request(server, 'POST', '/verify', {}, {code: currentTotp()});
     assert.equal(verified.status, 200);
+    assert.match(verified.headers['x-request-id'] || '', /^[A-Za-z0-9._~-]{8,96}$/);
     const gate = jsonBody(verified);
     assert.match(gate.token, /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/);
     assert.equal(gate.remaining, 3);
@@ -116,6 +136,14 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
     const intentResponse = await request(server, 'POST', '/report/intent', {Authorization: 'Bearer ' + gate.token}, {evidenceHash: hash});
     assert.equal(intentResponse.status, 200);
     const intent = jsonBody(intentResponse).intent;
+
+    const preflight = await request(server, 'OPTIONS', '/chat/completions', {
+      'Access-Control-Request-Method': 'POST',
+      'Access-Control-Request-Headers': 'content-type,authorization,x-request-id'
+    });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers['access-control-allow-origin'], 'http://127.0.0.1');
+    assert.match(preflight.headers['access-control-allow-headers'] || '', /x-request-id/);
 
     const reportResponse = await request(server, 'POST', '/chat/completions', {
       Authorization: 'Bearer ' + gate.token,
@@ -154,6 +182,12 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
     }, {intent});
     assert.equal(differentId.status, 401, 'stale token cannot create a second completion');
 
+    const reusedId = await request(server, 'POST', '/run/complete', {
+      Authorization: 'Bearer ' + completionBody.token,
+      'X-Request-ID': requestId
+    }, {intent: intent + 'different'});
+    assert.equal(reusedId.status, 409, 'a request id cannot be reused for a different intent');
+
     const bypass = await request(server, 'POST', '/chat/completions', {
       Authorization: 'Bearer ' + completionBody.token
     }, {messages: [{role: 'user', content: '伪造报告'}], mode: 'report', max_tokens: 16000, stream: true});
@@ -164,10 +198,32 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
     }, {messages: [{role: 'user', content: '继续聊'}], mode: 'open', max_tokens: 1200, stream: true});
     assert.equal(normal.status, 200);
 
+    const beforeAbrupt = relay.store.get(gate.sid).turns;
+    abruptUpstream = true;
+    await assert.rejects(
+      request(server, 'POST', '/chat/completions', {
+        Authorization: 'Bearer ' + completionBody.token
+      }, {messages: [{role: 'user', content: '上游断流'}], mode: 'open', max_tokens: 1200, stream: true}),
+      /ECONNRESET|socket hang up|aborted/i,
+      'an upstream close must terminate the client response'
+    );
+    abruptUpstream = false;
+    assert.equal(relay.store.get(gate.sid).turns, beforeAbrupt, 'an abrupt upstream close does not spend a turn');
+
+    slowUpstream = true;
+    const heartbeat = await request(server, 'POST', '/chat/completions', {
+      Authorization: 'Bearer ' + completionBody.token
+    }, {messages: [{role: 'user', content: '心跳测试'}], mode: 'open', max_tokens: 1200, stream: true});
+    slowUpstream = false;
+    assert.equal(heartbeat.status, 200);
+    assert.match(heartbeat.body, /: ping\n\n/, 'quiet SSE streams emit a heartbeat');
+
     const health = await request(server, 'GET', '/healthz');
     assert.equal(health.status, 200);
     assert.equal(jsonBody(health).version, relay.APP_VERSION);
     assert.equal((await request(server, 'GET', '/healthz?x=1')).status, 404);
+    assert.equal((await request(server, 'GET', '/readyz')).status, 200);
+    assert.equal((await request(server, 'GET', '/healthz', {Origin: 'https://evil.example'})).status, 403);
 
     const huge = await request(server, 'POST', '/verify', {}, {code: '0'.repeat(9000)});
     assert.equal(huge.status, 413);
@@ -175,6 +231,7 @@ assert.equal(relay.pickClientIp('203.0.113.7, 198.51.100.9', '10.0.0.1', true), 
   } finally {
     await new Promise(resolve => server.close(resolve));
     relay.setUpstreamRequester(undefined);
+    relay.setStateStore(memoryStore);
   }
 })().catch(error => {
   console.error(error);

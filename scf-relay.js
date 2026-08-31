@@ -31,6 +31,7 @@ const REPORT_INTENT_TTL_MS = 10 * 60 * 1000;
 const MAX_REPORT_INTENTS = 6;
 const DEFAULT_UPSTREAM_TIMEOUT_MS = 180 * 1000;
 const UPSTREAM_TIMEOUT_MS = boundedInt(process.env.UPSTREAM_TIMEOUT_MS, DEFAULT_UPSTREAM_TIMEOUT_MS, 15 * 1000, 570 * 1000);
+const SSE_HEARTBEAT_MS = boundedInt(process.env.SSE_HEARTBEAT_MS, 15 * 1000, 1000, 60 * 1000);
 
 const QIANFAN_BASE_URL = 'https://qianfan.baidubce.com/v2/tokenplan/personal';
 const QIANFAN_ALLOWED_HOSTS = new Set(['qianfan.baidubce.com']);
@@ -97,6 +98,7 @@ function pruneMap(map, maxSize, now = Date.now()) {
    in-memory implementation is deliberately retained for local tests and a
    single-instance preview. */
 class StateStore {
+  /* get/set may return a value or a Promise; withLock must still be atomic. */
   get() { throw new Error('BEICHEN_STATE_STORE_GET_NOT_IMPLEMENTED'); }
   set() { throw new Error('BEICHEN_STATE_STORE_SET_NOT_IMPLEMENTED'); }
   withLock() { throw new Error('BEICHEN_STATE_STORE_LOCK_NOT_IMPLEMENTED'); }
@@ -173,10 +175,14 @@ function allowRate(map, key, limit, windowMs) {
 }
 
 /* ── 请求体与响应 ─────────────────────────────────────────────── */
+function drainRequest(req) {
+  try { req?.resume?.(); } catch (_) { /* a request may already be closed */ }
+}
+
 function readJson(req, limit = MAX_BODY_BYTES) {
   const declared = Number(req.headers['content-length'] || 0);
   if (Number.isFinite(declared) && declared > limit) {
-    req.resume();
+    drainRequest(req);
     return Promise.reject(httpError(413, 'BEICHEN_PAYLOAD_TOO_LARGE'));
   }
   return new Promise((resolve, reject) => {
@@ -251,7 +257,10 @@ function text(req, res, status, body) {
 
 function requireJsonContentType(req) {
   const contentType = String(req.headers['content-type'] || '').toLowerCase();
-  if (!contentType.startsWith('application/json')) throw httpError(415, 'BEICHEN_JSON_REQUIRED');
+  if (!contentType.startsWith('application/json')) {
+    drainRequest(req);
+    throw httpError(415, 'BEICHEN_JSON_REQUIRED');
+  }
 }
 
 /* ── IP 与限流 ───────────────────────────────────────────────── */
@@ -364,7 +373,7 @@ function tokenForState(state) {
   });
 }
 
-function createSession() {
+async function createSession() {
   const now = Date.now();
   const state = {
     sid: randomId(),
@@ -379,17 +388,17 @@ function createSession() {
     intents: new Map(),
     reportSuccesses: new Map()
   };
-  store.set(state.sid, state);
+  await store.set(state.sid, state);
   return state;
 }
 
-function authenticate(req, options = {}) {
+async function authenticate(req, options = {}) {
   if (!sessionSecretReady()) return { error: 'BEICHEN_AUTH_NOT_CONFIGURED' };
   const header = String(req.headers.authorization || '');
   if (!/^Bearer [A-Za-z0-9._~-]{40,4096}$/.test(header)) return { error: 'BEICHEN_AUTH_REQUIRED' };
   const payload = decodeToken(header.slice(7));
   if (!payload) return { error: 'BEICHEN_AUTH_REQUIRED' };
-  const state = store.get(payload.sid);
+  const state = await store.get(payload.sid);
   if (!state || state.exp <= Date.now()) return { error: 'BEICHEN_AUTH_EXPIRED', payload };
   const stale = state.jti !== payload.jti || state.seq !== payload.seq;
   if (stale && !options.allowStale) return { error: 'BEICHEN_AUTH_REPLAY', payload, state };
@@ -399,9 +408,10 @@ function authenticate(req, options = {}) {
   return { payload, state, stale };
 }
 
-function requireSession(req, res, options = {}) {
-  const auth = authenticate(req, options);
+async function requireSession(req, res, options = {}) {
+  const auth = await authenticate(req, options);
   if (auth.error) {
+    drainRequest(req);
     json(req, res, auth.error === 'BEICHEN_AUTH_NOT_CONFIGURED' ? 503 : 401, { error: { message: auth.error } });
     return null;
   }
@@ -561,6 +571,7 @@ function proxyChat(req, res, body, config) {
   return new Promise((resolve, reject) => {
     let settled = false;
     let clientClosed = false;
+    let upstreamEnded = false;
     let timer = null;
     let heartbeat = null;
     let upstream;
@@ -590,12 +601,15 @@ function proxyChat(req, res, body, config) {
         upstreamResponse.on('data', chunk => { bytes += chunk.length; if (bytes > 64 * 1024) upstreamResponse.destroy(); });
         upstreamResponse.on('end', () => finish(httpError(status >= 400 && status < 500 ? status : 502, 'BEICHEN_UPSTREAM_ERROR')));
         upstreamResponse.on('error', () => finish(httpError(502, 'BEICHEN_UPSTREAM_ERROR')));
+        upstreamResponse.on('close', () => { if (!settled) finish(httpError(502, 'BEICHEN_UPSTREAM_ERROR')); });
         return;
       }
       const contentType = String(upstreamResponse.headers['content-type'] || '').toLowerCase();
       if (!contentType.startsWith('text/event-stream')) {
         upstreamResponse.resume();
         upstreamResponse.on('end', () => finish(httpError(502, 'BEICHEN_UPSTREAM_BAD_CONTENT_TYPE')));
+        upstreamResponse.on('error', () => finish(httpError(502, 'BEICHEN_UPSTREAM_ERROR')));
+        upstreamResponse.on('close', () => { if (!settled) finish(httpError(502, 'BEICHEN_UPSTREAM_BAD_CONTENT_TYPE')); });
         return;
       }
       if (clientClosed) { upstreamResponse.destroy(); return finish(httpError(499, 'BEICHEN_CLIENT_ABORT')); }
@@ -607,7 +621,7 @@ function proxyChat(req, res, body, config) {
         if (!settled && !clientClosed && !res.writableEnded && !res.destroyed) {
           try { res.write(': ping\n\n'); } catch (_) { /* close handler aborts upstream */ }
         }
-      }, 15000);
+      }, SSE_HEARTBEAT_MS);
       heartbeat.unref?.();
       let bytes = 0;
       upstreamResponse.on('data', chunk => {
@@ -619,8 +633,9 @@ function proxyChat(req, res, body, config) {
         if (!res.write(chunk)) upstreamResponse.pause();
       });
       res.on('drain', () => upstreamResponse.resume());
-      upstreamResponse.on('end', () => { res.end(); finish(); });
+      upstreamResponse.on('end', () => { upstreamEnded = true; res.end(); finish(); });
       upstreamResponse.on('error', () => finish(httpError(502, 'BEICHEN_UPSTREAM_ERROR')));
+      upstreamResponse.on('close', () => { if (!upstreamEnded && !settled) finish(httpError(502, 'BEICHEN_UPSTREAM_CLOSED')); });
     });
     activeUpstreams.add(upstream);
     timer = setTimeout(() => {
@@ -650,18 +665,18 @@ async function handleVerify(req, res) {
   requireJsonContentType(req);
   if (!process.env.GATE_TOTP_SECRET || !sessionSecretReady()) return json(req, res, 503, { error: { message: 'BEICHEN_AUTH_NOT_CONFIGURED' } });
   const ip = pickClientIp(req.headers['x-forwarded-for'], req.socket && req.socket.remoteAddress);
-  if (!allowRate(verifyAttempts, 'verify:' + ip, 8, 60000)) return json(req, res, 429, { error: { message: 'BEICHEN_AUTH_RATE_LIMIT' } });
+  if (!allowRate(verifyAttempts, 'verify:' + ip, 8, 60000)) { drainRequest(req); return json(req, res, 429, { error: { message: 'BEICHEN_AUTH_RATE_LIMIT' } }); }
   const body = await readJson(req, 8 * 1024);
   if (!onlyKeys(body, ['code']) || typeof body.code !== 'string' || !consumeTotp(body.code)) return json(req, res, 401, { error: { message: 'BEICHEN_AUTH_INVALID_CODE' } });
-  const state = createSession();
+  const state = await createSession();
   return json(req, res, 200, { ok: true, token: tokenForState(state), sid: state.sid, runs: 0, remaining: MAX_RUNS, maxRuns: MAX_RUNS, expiresIn: TOKEN_TTL_MS, version: APP_VERSION });
 }
 
 async function handleReportIntent(req, res) {
-  const auth = requireSession(req, res);
+  const auth = await requireSession(req, res);
   if (!auth) return;
   requireJsonContentType(req);
-  if (!allowRate(requestLimits, 'intent:' + clientKey(req, auth.payload.sid), 8, 60000)) return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } });
+  if (!allowRate(requestLimits, 'intent:' + clientKey(req, auth.payload.sid), 8, 60000)) { drainRequest(req); return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } }); }
   const body = await readJson(req, 8 * 1024);
   if (!onlyKeys(body, ['evidenceHash']) || !/^[a-f0-9]{64}$/.test(String(body.evidenceHash || ''))) throw httpError(400, 'BEICHEN_BAD_REQUEST');
   const result = await store.withLock(auth.payload.sid, state => {
@@ -679,12 +694,12 @@ async function handleReportIntent(req, res) {
 }
 
 async function handleRunComplete(req, res) {
-  const auth = requireSession(req, res, { allowStale: true });
+  const auth = await requireSession(req, res, { allowStale: true });
   if (!auth) return;
   requireJsonContentType(req);
   const requestId = String(req.headers['x-request-id'] || '').trim();
   if (!/^[A-Za-z0-9._~-]{8,96}$/.test(requestId)) throw httpError(400, 'BEICHEN_BAD_REQUEST');
-  if (!allowRate(requestLimits, 'complete:' + clientKey(req, auth.payload.sid), 12, 60000)) return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } });
+  if (!allowRate(requestLimits, 'complete:' + clientKey(req, auth.payload.sid), 12, 60000)) { drainRequest(req); return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } }); }
   const body = await readJson(req, 4 * 1024);
   if (!isPlainObject(body) || !onlyKeys(body, ['intent'])) throw httpError(400, 'BEICHEN_BAD_REQUEST');
   const result = await store.withLock(auth.payload.sid, state => {
@@ -721,12 +736,12 @@ async function handleRunComplete(req, res) {
 }
 
 async function handleChat(req, res) {
-  const auth = requireSession(req, res);
+  const auth = await requireSession(req, res);
   if (!auth) return;
   requireJsonContentType(req);
-  if (!allowRate(requestLimits, clientKey(req, auth.payload.sid), 20, 60000)) return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } });
+  if (!allowRate(requestLimits, clientKey(req, auth.payload.sid), 20, 60000)) { drainRequest(req); return json(req, res, 429, { error: { message: 'BEICHEN_RATE_LIMIT' } }); }
   const config = providerConfig();
-  if (!config) return json(req, res, 503, { error: { message: 'BEICHEN_PROVIDER_NOT_CONFIGURED' } });
+  if (!config) { drainRequest(req); return json(req, res, 503, { error: { message: 'BEICHEN_PROVIDER_NOT_CONFIGURED' } }); }
   const bodyInput = await readJson(req, MAX_BODY_BYTES);
   const reportIntent = String(req.headers['x-report-intent'] || '').trim();
   const isReport = !!reportIntent;
@@ -735,19 +750,32 @@ async function handleChat(req, res) {
     const hash = sha256(canonicalMessages(body.messages));
     await markReportIntent(auth.payload.sid, reportIntent, hash);
   }
-  const reservation = await reserveTurn(auth.payload.sid);
+  let reservation;
+  try {
+    reservation = await reserveTurn(auth.payload.sid);
+  } catch (error) {
+    /* Do not leave a report intent in `inflight` when the session turn
+       reservation itself is rejected (for example at the hard turn cap). */
+    if (isReport) {
+      try { await settleReportIntent(auth.payload.sid, reportIntent, false); } catch (_) { /* preserve the original error */ }
+    }
+    throw error;
+  }
   let successful = false;
   try {
     await proxyChat(req, res, body, config);
     successful = true;
   } finally {
-    await settleTurn(reservation, successful);
-    if (isReport) await settleReportIntent(auth.payload.sid, reportIntent, successful);
+    try {
+      await settleTurn(reservation, successful);
+    } finally {
+      if (isReport) await settleReportIntent(auth.payload.sid, reportIntent, successful);
+    }
   }
 }
 
 async function handleHealth(req, res) {
-  if (req.method !== 'GET') return text(req, res, 405, 'method not allowed');
+  if (req.method !== 'GET') { drainRequest(req); return text(req, res, 405, 'method not allowed'); }
   const configured = !!providerConfig() && sessionSecretReady() && !!process.env.GATE_TOTP_SECRET;
   return json(req, res, configured ? 200 : 503, {
     ok: configured,
@@ -767,22 +795,23 @@ function allowedOrigin(req) {
 }
 
 async function handle(req, res) {
-  if (!allowedOrigin(req)) return json(req, res, 403, { error: { message: 'BEICHEN_ORIGIN_NOT_ALLOWED' } });
+  if (!allowedOrigin(req)) { drainRequest(req); return json(req, res, 403, { error: { message: 'BEICHEN_ORIGIN_NOT_ALLOWED' } }); }
   const url = new URL(req.url, 'http://localhost');
   const path = url.pathname;
-  if (!ROUTES.has(path)) return text(req, res, 404, 'beichen relay');
-  if (url.search) return text(req, res, 404, 'beichen relay');
+  if (!ROUTES.has(path)) { drainRequest(req); return text(req, res, 404, 'beichen relay'); }
+  if (url.search) { drainRequest(req); return text(req, res, 404, 'beichen relay'); }
   if (req.method === 'OPTIONS') {
-    if (!['/verify', '/report/intent', '/run/complete', '/chat/completions'].includes(path) || String(req.headers['access-control-request-method'] || '') !== 'POST') return text(req, res, 404, 'beichen relay');
+    if (!['/verify', '/report/intent', '/run/complete', '/chat/completions'].includes(path) || String(req.headers['access-control-request-method'] || '') !== 'POST') { drainRequest(req); return text(req, res, 404, 'beichen relay'); }
     res.writeHead(204, securityHeaders(req));
     return res.end();
   }
   if (path === '/healthz' || path === '/readyz') return handleHealth(req, res);
-  if (req.method !== 'POST') return text(req, res, 405, 'method not allowed');
+  if (req.method !== 'POST') { drainRequest(req); return text(req, res, 405, 'method not allowed'); }
   if (path === '/verify') return handleVerify(req, res);
   if (path === '/report/intent') return handleReportIntent(req, res);
   if (path === '/run/complete') return handleRunComplete(req, res);
   if (path === '/chat/completions') return handleChat(req, res);
+  drainRequest(req);
   return text(req, res, 404, 'beichen relay');
 }
 
@@ -820,6 +849,7 @@ module.exports = {
   MAX_PROMPT_CHARS,
   MAX_PROMPT_BYTES,
   MAX_MESSAGE_BYTES,
+  SSE_HEARTBEAT_MS,
   NORMAL_MAX_TOKENS,
   REPORT_MAX_TOKENS,
   StateStore,

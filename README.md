@@ -39,7 +39,8 @@
 
 ```text
 浏览器（GitHub Pages）
-  ├─ 版本化本机存储：beichen_codex_* / bc_codex_*（可同意、可清除、7 天会话）
+  ├─ 版本化本机存储：beichen_codex_*（明确同意后可选 7 天记录）
+  ├─ 当前标签页票据：bc_codex_*（关闭标签页即失效）
   ├─ POST /verify
   ├─ POST /report/intent
   ├─ POST /chat/completions（SSE）
@@ -58,6 +59,8 @@
 ### 状态与扩容说明
 
 `scf-relay.js` 默认使用进程内 `MemoryStore`，适合本地测试和单实例受控试用。它实现了同一 `sid` 内的串行临界区，但**不能**跨实例或重启保留会话。代码提供 `StateStore` 契约和 `setStateStore(adapter)` 注入点；正式扩容前必须接入支持 TTL、CAS/事务的外部 KV/数据库，并让 `withLock(sid, callback)` 原子读改写完整状态。健康检查会返回 `stateStore: memory|external`，不会假装内存状态是持久化服务。
+
+外部适配器的 `get`、`set` 可以返回 Promise；`withLock` 仍必须在同一 `sid` 上完成原子读改写，不能只在应用层拼接 JSON。
 
 ## 服务端接口契约
 
@@ -106,7 +109,7 @@ Pages 工作流只复制以下资源到 `dist/`：`index.html`、`runtime-config
 
 ## 创建独立腾讯云函数
 
-请只创建新函数（建议名称 `beichen-codex-relay`），不要更新历史函数、不要复用历史环境变量。根目录提供 `scf-relay.js` 与 `scf_bootstrap`；后者要求 LF 换行和 755 权限，打包前请阅读 [beginner-deploy.md](beginner-deploy.md)。
+请只创建新函数（建议名称 `beichen-codex-relay`），不要更新历史函数或把历史函数切换到这份代码。生产密钥应为新函数单独管理的加密变量；本次交付为兼容既有操作员动态码而暂时沿用了现有 TOTP seed，正式扩大范围前必须轮换并重新分发。根目录提供 `scf-relay.js` 与 `scf_bootstrap`；后者要求 LF 换行和 755 权限，打包前请阅读 [beginner-deploy.md](beginner-deploy.md)。
 
 建议环境变量：
 
@@ -127,7 +130,7 @@ Pages 工作流只复制以下资源到 `dist/`：`index.html`、`runtime-config
 ## 隐私、未成年人和事实边界
 
 - 首次进入需要明确同意：输入会发送给模型服务；不要填写姓名、电话、住址、学校班级等可识别信息。
-- 谈心记录和报告只在用户选择的本机 Web Storage 中保存，带版本命名空间和 7 天过期；“清除本机记录”会同时删除当前版本的会话、画像、同意、模式和票据。
+- 谈心记录和报告只有在序章勾选“本机保留 7 天”后才写入 Web Storage，带版本命名空间和过期时间；认证票据只留在当前标签页的 sessionStorage（不可用时仅留内存）。“清除本机记录”会同时删除当前版本的会话、画像、同意、模式和票据。
 - 云函数只保存完成一次请求所需的短期状态；默认 MemoryStore 重启即失效。上游模型供应商的处理与保留以其当时政策为准。
 - 报告中的组合、覆盖率、招生计划和专业门槛都可能随省份与年份变化；正式选科必须核对本省教育考试院、阳光高考和目标高校招生章程。
 - 发现自伤或无法保证安全的表达时，页面只提供固定的求助提醒；请立即联系身边可信任的成年人、老师或当地紧急服务。北辰不能替代心理、医疗或危机干预。

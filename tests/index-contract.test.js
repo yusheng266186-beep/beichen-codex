@@ -29,8 +29,10 @@ assert.match(index, /id="modeModal" role="dialog"/);
 assert.match(index, /data-mode="open" aria-pressed="false"/);
 assert.match(index, /data-mode="guided" aria-pressed="false"/);
 assert.match(index, /id="privacyConsent"/);
+assert.match(index, /id="localSaveConsent"/);
 assert.match(index, /id="profileProvince"/);
 assert.match(index, /id="profileGrade"/);
+assert.match(index, /id="profileYear"/);
 assert.match(index, /id="profileGoal"/);
 assert.match(index, /id="introBtn" disabled/);
 assert.match(index, /role="log"/);
@@ -42,11 +44,17 @@ assert.match(index, /function setProfileFromForm\(\)/);
 
 /* v3 命名空间与可恢复状态 */
 assert.match(index, /const SESSION_KEY = 'beichen_codex_session_v3'/);
+assert.match(index, /const PERSIST_KEY = 'beichen_codex_persist_v3'/);
 assert.match(index, /const GATE_TOKEN_KEY = 'bc_codex_gate_token_v3'/);
 assert.match(index, /const GATE_SID_KEY = 'bc_codex_gate_sid_v3'/);
 assert.match(index, /const PROFILE_KEY = 'beichen_codex_profile_v3'/);
 assert.match(index, /const INTRO_SEEN_KEY = 'beichen_codex_intro_seen_v3'/);
 assert.match(index, /function storeGet\(key\)/);
+assert.match(index, /function hasLocalSaveConsent\(\)/);
+assert.match(index, /const EPHEMERAL_STORE = new Map\(\)/);
+assert.match(index, /const AUTH_STORAGE = \(\(\)=>/);
+assert.match(index, /function storageForKey\(key\)/);
+assert.match(index, /只存当前标签页，关闭标签页即失效/);
 assert.match(index, /function eachBrowserStorage\(callback\)/);
 assert.match(index, /function removeKnownKeys\(\)/);
 assert.match(index, /SESSION_MAX_AGE_MS/);
@@ -76,6 +84,12 @@ assert.match(index, /storeSet\(TAB_COMPLETION_KEY, JSON\.stringify/);
 assert.match(index, /function retryQuotaSync\(\)/);
 assert.match(index, /function checkRelay\(\)/);
 assert.match(index, /\/healthz/);
+assert.match(index, /function stopGateTimer\(\)/);
+assert.match(index, /function startGateTimer\(\)/);
+assert.match(index, /requestCtx\.committing = true/);
+assert.match(index, /const completionId = completionRequestId\(reportIntent\)/);
+assert.match(index, /function syncChoiceBusyState\(\)/);
+assert.match(index, /aria-invalid="false"/);
 
 /* 输出安全与模型思考边界 */
 assert.match(index, /function esc\(s\)/);

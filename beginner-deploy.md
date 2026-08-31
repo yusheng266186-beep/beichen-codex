@@ -6,7 +6,7 @@
 
 1. Node.js 18.20+，建议 Node 20 LTS；GitHub CLI 已登录到拥有新仓库权限的账号。
 2. 一个可创建腾讯云 SCF Web Function 的账号，以及百度千帆 Token Plan personal 的服务端密钥。
-3. 一个新的 TOTP seed 和至少 32 字节的随机 `GATE_SESSION_SECRET`。曾经出现在历史材料中的值先撤销/轮换，不能复用。
+3. 推荐为新函数准备单独的 TOTP seed 和至少 32 字节的随机 `GATE_SESSION_SECRET`。本次已部署实例为了不打断既有操作员的动态码而暂时沿用旧 TOTP seed；这不是长期安全配置，正式扩大范围前必须轮换并重新分发。曾经暴露过的千帆密钥仍应尽快撤销/轮换。
 4. 进入仓库目录执行：
 
    ```bash
@@ -58,7 +58,7 @@ with zipfile.ZipFile("beichen-codex-relay.zip", "w", compression=zipfile.ZIP_DEF
 QIANFAN_API_KEY=<仅服务端可见>
 QIANFAN_BASE_URL=https://qianfan.baidubce.com/v2/tokenplan/personal
 QIANFAN_MODEL=glm-5.2
-GATE_TOTP_SECRET=<新的 Base32 seed>
+GATE_TOTP_SECRET=<新函数专用的 Base32 seed；当前兼容部署暂时沿用既有操作员 seed>
 GATE_SESSION_SECRET=<新的随机字符串，至少 32 字节>
 CORS_ALLOWED_ORIGINS=<Pages 的纯 origin>
 PORT=9000

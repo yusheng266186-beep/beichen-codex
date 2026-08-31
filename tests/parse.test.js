@@ -62,6 +62,9 @@ check('组合口语缩写 物化生/物化地(历史死因) → 严格档渲染'
 check('组合换行分隔 → 渲染', buildReport({newlineCombo: true}), true);
 check('缺专业/寄语且仅4卡 → 宽容档渲染不卡死', buildReport({noMajor: true, noBless: true, fourCards: true}), 'loose');
 check('缺星值 → 宽容档渲染(方位回退)', buildReport({noStarValue: true}), 'loose');
+check('星值非数字 → 宽容档渲染而不伪装精确', buildReport().replace('【星值】62', '【星值】待定'), 'loose');
+check('方位不在受支持枚举 → 宽容档渲染', buildReport().replace('【方位】理科', '【方位】尚未判断'), 'loose');
+check('专业方向不足三项 → 宽容档渲染', buildReport().replace('【专业】机械工程、车辆工程、自动化', '【专业】机械工程'), 'loose');
 check('无关文本 → null(走一次修复)', '完全无关的闲聊内容。', null);
 
 /* v2.6.7 专业三段格式(名||分析||就业方向)为主;两段组与旧顿号名单逐级宽容降级 */
