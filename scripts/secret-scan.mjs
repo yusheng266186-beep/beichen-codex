@@ -10,6 +10,7 @@ const suspicious = [
   /\bsk-[a-z0-9]{20,}\b/i,
   /https?:\/\/\d{6,}-[a-z0-9]+\.ap-[a-z0-9-]+\.tencentscf\.com/i
 ];
+const publicEndpoint = suspicious[suspicious.length - 1];
 const secretAssignments = /\b(QIANFAN_API_KEY|GATE_TOTP_SECRET|GATE_SESSION_SECRET)[ \t]*=[ \t]*([^\r\n]*)/gim;
 const safeAssignment = /^(?:$|<[^>]*>$|your(?:[-_ ]|$)|你的|动态验证码使用|随机生成|至少|test[-_]|placeholder|process\.env\.)/i;
 const hits = [];
@@ -25,14 +26,19 @@ async function walk(dir) {
     try { data = await readFile(file); } catch { continue; }
     if (data.includes(0)) continue;
     const text = data.toString('utf8');
+    const relativeFile = relative(rootPath, file).replaceAll('\\', '/');
+    const extension = entry.name.toLowerCase().includes('.') ? entry.name.slice(entry.name.lastIndexOf('.')).toLowerCase() : '';
+    const isDocumentation = relativeFile.startsWith('docs/') || ['.md', '.markdown', '.txt'].includes(extension);
     for (const pattern of suspicious) {
+      /* A function URL is public routing metadata, not a credential. Keep
+         catching it in executable/config files, while allowing the exact
+         endpoint to be documented for operators and users. */
+      if (pattern === publicEndpoint && isDocumentation) continue;
       if (pattern.test(text)) {
         hits.push(`${relative(rootPath, file)} :: ${pattern}`);
         break;
       }
     }
-    const extension = entry.name.toLowerCase().includes('.') ? entry.name.slice(entry.name.lastIndexOf('.')).toLowerCase() : '';
-    const relativeFile = relative(rootPath, file).replaceAll('\\', '/');
     if (!relativeFile.startsWith('tests/') && !['.md', '.markdown', '.txt'].includes(extension) && secretAssignments.test(text)) {
       secretAssignments.lastIndex = 0;
       let match;
