@@ -31,6 +31,6 @@
 
 - [x] GitHub Actions 变量 `BEICHEN_RELAY_ORIGIN` 已设置且只包含纯 origin
 - [x] Pages artifact 不含 `legacy/`、`archive/`、测试、文档或云函数源码
-- [ ] 页面版本、relay 版本、`build-manifest.json` SHA、tag/release 一致（最终 tag 在最后一次推送后创建）
+- [x] 页面版本、relay 版本、`build-manifest.json` SHA、tag/release 一致；最终标签仅在所有检查通过后指向发布提交
 - [x] 发布后冒烟记录只包含 request ID、状态码和延迟，不含原话或密钥
 - [x] 已验证独立 Pages artifact 与独立函数版本可回滚；历史仓库/函数零改动

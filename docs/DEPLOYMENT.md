@@ -18,6 +18,8 @@
 - 新函数 `/healthz` 返回 HTTP 200、`ok: true`、`version: v3.0.0-codex`、`stateStore: memory`。
 - Pages origin 的 CORS 预检返回 204，并允许页面实际使用的请求头；非白名单 origin 返回 403。
 - `/verify`、`/report/intent` 的线上冒烟只验证结构和边界，不生成报告、不消耗报告额度。
+- 浏览器实测覆盖 `1280×720`、`390×844`、`320×568` 与 `812×375`；星门主按钮均完整可见，页面无横向溢出。短横屏同时核对了错误区、计时条和联系方式，控制台无 warning/error。
+- GitHub `verify` 与 `publish-pages` 必须在最终发布提交上同时成功；线上 `build-manifest.json` 的 `gitSha` 是最终 Pages 产物的权威提交指纹。
 
 ## 配置边界
 

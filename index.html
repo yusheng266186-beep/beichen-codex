@@ -850,7 +850,7 @@ button:disabled{cursor:not-allowed;filter:none}
 .top-acts .tbtn{min-height:38px}
 .choices-wrap.dis{opacity:.5}
 .choices-wrap.dis .choc{pointer-events:none}
-.choc,.pk-chip,.pk-ok,.mbtn,.tbtn,.rc-close,.typing-cancel{min-height:44px}
+.choc,.pk-chip,.pk-ok,.mbtn,.tbtn,.rc-close,.typing-cancel,.gate-btn,.intro-btn{min-height:44px}
 .rc-close{width:44px;height:44px}
 .typing-cancel{padding:8px 13px}
 .consent{display:flex;gap:8px;align-items:flex-start;text-align:left;margin:18px auto 0;max-width:390px;color:var(--mut);font-size:11px;line-height:1.8}
@@ -920,8 +920,17 @@ button:disabled{cursor:not-allowed;filter:none}
   .choices-wrap{max-height:38vh;overflow-y:auto;padding-right:3px}
 }
 @media (orientation:landscape) and (max-height:520px){
-  .gate{align-items:flex-start}
-  .gate-in{padding-top:4px;transform:scale(.9);transform-origin:top center}
+  .gate{align-items:flex-start;padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+  .gate-in{padding:0 0 8px;transform:none}
+  .gate-star{width:24px;height:24px;margin-bottom:4px}
+  .gate-eyebrow{font-size:9px;margin-bottom:4px}
+  .gate-title{font-size:25px}
+  .gate-sub{font-size:11.5px;line-height:1.55;margin-top:4px}
+  .gate-input{font-size:24px;margin-top:8px;padding:4px 0 6px}
+  .gate-btn{min-height:44px;margin-top:8px;padding:8px 42px}
+  .gate-err{font-size:10.5px;line-height:1.2;margin-top:4px;min-height:1.2em}
+  .gate-timer{margin-top:8px}
+  .gate-contact{margin-top:6px}
   .intro-in{padding-bottom:22px}
 }
 @media (forced-colors:active){
