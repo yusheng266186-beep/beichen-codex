@@ -15,6 +15,25 @@
 以上页面和函数均属于本次独立 v3 发布；历史 `beichen` 仓库、旧 Pages 和
 `beichen-qianfan-mini` 函数不在本项目的更新范围内。
 
+<!-- project-navigation:start -->
+## 项目概览
+
+| 项目 | 说明 |
+| --- | --- |
+| 分类 | 选科与升学探索 |
+| 平台 | 浏览器 / AI 中转 |
+| 当前定位 | 独立发布线 |
+
+面向高中生的选科探索网页，提供夜航 / 领航两种谈心方式与星图报告。
+
+[在线体验](https://yusheng266186-beep.github.io/beichen-codex/) · [版本与下载](https://github.com/yusheng266186-beep/beichen-codex/releases) · [使用与开发](#本地开发) · [项目总导航](https://github.com/yusheng266186-beep/yusheng266186-beep)
+
+本库独立维护 v3 页面和中转服务；[北辰主线](https://github.com/yusheng266186-beep/beichen) 与本库有各自的发布记录。历史调试过程见已归档的 [beichen-v3-debug](https://github.com/yusheng266186-beep/beichen-v3-debug)。
+
+**阅读导航：** [本地开发](#本地开发) · [隐私、未成年人和事实边界](#隐私未成年人和事实边界) · [这次大版本解决了什么](#这次大版本解决了什么) · [架构](#架构) · [目录](#目录)
+
+<!-- project-navigation:end -->
+
 ## 这次大版本解决了什么
 
 ### 产品与内容
